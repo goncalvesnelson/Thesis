@@ -1,0 +1,203 @@
+\documentclass[11pt,a4paper,twoside]{book} % article, report or essay
+
+%\usepackage[margin=3cm]{geometry} %margins
+
+\usepackage[portuges, english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[pdftex]{graphicx}
+%\usepackage{verbatim}
+
+\usepackage[T1]{fontenc}
+\usepackage{txfonts}% use Arial && Times New Roman
+
+\usepackage{enumerate}
+\usepackage{multirow}
+\usepackage{listings}
+\usepackage{url}
+\usepackage{a4wide}
+\usepackage{epstopdf}
+\usepackage[pdfauthor={Nelson Gonçalves PG15395},
+			pdftitle={Large Scale Privacy Preserving Bluetooth Sensing},
+			a4paper,
+			pdftex,
+			bookmarks,
+			colorlinks,
+			linkcolor=black,
+			urlcolor=black,
+			citecolor=black]{hyperref} 
+\newcommand{\tab}{\hspace*{2em}}
+
+\usepackage{xspace}
+
+\usepackage{float}
+\usepackage{epigraph}
+
+\usepackage{todonotes}
+\usepackage[grey]{quotchap}
+\floatstyle{boxed}
+\newfloat{program}{hbt}{lop}
+\floatname{program}{Program}
+
+
+\lstset{ %
+language=python,                % choose the language of the code
+basicstyle=\small,       % the size of the fonts that are used for the code
+%numbers=left,                   % where to put the line-numbers
+%numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+stepnumber=2,                   % the step between two line-numbers. If it's 1 each line will be numbered
+numbersep=5pt,                  % how far the line-numbers are from the code
+%backgroundcolor=\color{gray},  % choose the background color. You must add \usepackage{color}
+%showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+%showtabs=false,                 % show tabs within strings adding particular underscores
+%frame=single,	                % adds a frame around the code
+tabsize=4,	                % sets default tabsize to 2 spaces
+%captionpos=b,                   % sets the caption-position to bottom
+breaklines=true,                % sets automatic line breaking
+%breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+%title=\lstname,                 % show the filename of files included with \lstinputlisting; also try caption instead of title
+%escapeinside={\%*}{*)}   % if you want to 
+%add a comment within your code
+morekeywords={refines, refine, @Refines, @Refine, pointcut, call, before, after, around, within, args, target,aspect}            % if you want to add more keywords to the set
+}
+
+\newcommand{\upp}{Uppaal\xspace}
+\parindent=16pt
+\parskip=4pt
+
+\pdfpagewidth 8.3in
+\pdfpageheight 11.7in 
+
+
+\textwidth 5.9in
+\oddsidemargin 0.3in
+\evensidemargin 0.02in
+
+%\linespread{1.3}
+\pagestyle{headings}
+
+\begin{document}
+
+
+
+%%%%%% Formal begining of the thesis
+\pagenumbering{roman}
+	
+	%% cover
+	\thispagestyle{empty}
+	\input{sections/cover.tex}
+	
+	\newpage
+	\thispagestyle{plain}
+	
+	\newpage
+	\thispagestyle{plain}
+	\mbox{}
+	\input{sections/permissao.tex}
+	
+	% Epígrafe
+	\thispagestyle{empty}
+
+	\vspace*{0.8\textheight}
+	\setlength{\epigraphwidth}{9cm}
+	\renewcommand{\textflush}{flushright}
+	\epigraph{Experience is what you get when you didn’t get what you wanted.}
+	            {Randy Pausch (The Last Lecture)}
+
+	\cleardoublepage
+	
+	%% acknowledgements
+	\chapter*{Acknowledgments}
+	\input{ack.tex}
+
+	\newpage
+	\thispagestyle{plain}
+	\mbox{}
+		
+	%% resumo
+	\chapter*{Resumo}
+	\input{resumo.tex}
+	
+	\newpage
+	\thispagestyle{plain}
+	\mbox{}
+	
+	%% abstract
+	\chapter*{Abstract}
+	\input{abstract.tex}
+	
+	\newpage
+	\thispagestyle{plain}
+	\mbox{}
+	
+	%% table of contents
+	\tableofcontents{}
+	
+	\newpage
+	\thispagestyle{plain}
+	\mbox{}
+	
+	%% list of figures
+	\cleardoublepage
+	\listoffigures
+	\newpage
+	\thispagestyle{plain}
+	\mbox{}	
+	%% list of tables
+	\cleardoublepage
+	\listoftables
+
+	\chapter*{}
+	\newpage
+	
+%%%%%% Content
+
+\pagenumbering{arabic}
+	
+    %% chapters
+	\chapter{Introduction}
+         \input{sections/introduction.tex}
+		\mbox{}
+% \begin{savequote}[45mm]
+% ---When shall we three meet again
+% in thunder, lightning, or in rain?
+% ---When the hurlyburly's done,
+% when the battle's lost and won.
+% \qauthor{Shakespeare, Macbeth}
+% Cookies! Give me some cookies!
+% \qauthor{Cookie Monster}
+% \end{savequote}
+    \chapter{Literature Review}
+        \input{sections/literature_review.tex}
+		\mbox{}
+	\chapter{Measuring Propagation Delay}
+		% \input{sections/benchmarks.tex}
+		\mbox{}
+	\chapter{MySQL Proxy and Plugins}
+	%%	\input{sections/proxy.tex}
+		\mbox{}
+	\chapter{Replication Plugins Using Group Communication}
+	%%	\input{sections/spread_plugins.tex}
+		\mbox{}
+	\chapter{Results and Performance Analysis}
+	%%	\input{sections/results.tex}
+	%	\newpage
+		\thispagestyle{plain}
+		\mbox{}
+   \chapter{Conclusions}
+   	%%\input{sections/conclusions.tex}
+   	\newpage
+   	\thispagestyle{plain}
+   	\mbox{}
+
+	\bibliographystyle{plain}
+	%%\bibliography{references}\addcontentsline{toc}{chapter}{Bibliography}
+	
+	\appendix
+%		\chapter{Módulo Criado}
+%			\input{appendix/modulo.tex}
+			
+%		\chapter{Scripts}
+%			\input{appendix/script.tex}
+
+\end{document}
