@@ -1,3 +1,166 @@
+% \paragraph{}
+This chapter exposes some of the works whose content is relevant to
+the context of this dissertation. Section
+\ref{sec:privacy_pervasive_computing} begins by explaining the concept
+of privacy in pervasive computing and it's importance. It then follows
+with the presentation of some of the approaches already used in the
+field of pervasive computing regarding privacy. Lastly, Section
+\ref{sec:algorithms_and_data_structures} provides some background to
+the algorithms and classic data structures used in our approach to ensure
+privacy.
+
+\section{Privacy in Pervasive Computing}
+\label{sec:privacy_pervasive_computing}
+
+\subsection{Definition of Privacy}
+\label{sec:definition_privacy}
+
+As location based services become more popular and compelling, there
+is an increasing temptation to give away location data. However, along
+with this temptation comes an increasing concern about location privacy.
+
+Beresford and Stajano ~\cite{1186725} define location privacy as:
+\begin{quotation}
+  the ability to prevent other parties to from learning one's
+  current or past location.
+\end{quotation}
+Their definition implies that a person whose location is being
+monitored must be able to control who has access that information.
+It also acknowledges that both past and present location information
+are important. While current location information might enable an
+attacker to find out where a person is, past data can allow him/her to
+discover who the person is and  where does she live/work among other
+things.
+
+According Duckham and Kulik~\cite{duckham2006location} location
+privacy is:
+\begin{quotation}
+  a special type of information privacy which concerns the claim
+  of individuals to determine for themselves when, how, and to what
+  extent location information about them is communicated to others.
+\end{quotation}
+Their definition is based upon Westin's~\cite{westin1968privacy}
+definition of information privacy:
+\begin{quotation}
+  the claim of individuals, groups or institutions to determine for
+  themselves when, how and to what extent information about them is
+  communicated to others.
+\end{quotation}
+Duckham and Kulik's definition captures several aspects about
+location information and the way it can be shared:
+\begin{itemize}
+\item When: A user might have different concerns regarding her present
+  and past locations. For instance, the user may not care as much
+  about revealing her past locations as it does about its present
+  location.
+\item How: A user might be comfortable with manual location requests
+  from her friends, however she may not want to have her friends
+  alerted automatically when she enters a casino or a bar.  
+\item Extent: A user might prefer to have her location reported as an
+  ambiguous region rather than as a precise point.
+\end{itemize}
+These different characteristics are the topic of many different
+computational schemes for protecting the privacy of the users.
+Examples of such schemes are the use of pseudonyms instead of actual
+names, the deliberate addition of noise to the location data and the use
+of regions for location reporting instead of specific points.
+
+\subsection{Related Work}
+\label{sec:related_work}
+
+% In the context of ubiquitous computing, there are already several
+% techniques aimed at ensuring the privacy of data regarding the
+% location of the users.
+
+Nowadays mobile phones come equipped with lots of sensors
+(accelerometer , gyroscope, thermometer, GPS) as well as communication
+interfaces (Bluetooth, WiFi). The growing number of mobile phones
+together with their mentioned capabilities makes them viable building
+blocks for urban infrastructures~\cite{kostakos2009understanding} as
+well as targets for services such as Location Based Services(LBS).
+targets for 
+well as 
+
+as well as the 
+These capabilities along with the
+growing number of mobile phones make
+Due to the growing number of web enabled, context and location aware mobile
+devices, there is nowadays an increasing number of services and infrastructures built around these
+capabilities has been increasing substantially. Among the offered
+services, one of the most popular 
+
+
+there has been an increase in the popularity and number of
+Location Based Services (LBS)~\cite{wang2008location}. However as
+location tracking c
+Along with these 
+
+
+ The progress registered
+
+
+\section{Algorithms and data structures}
+\label{sec:algorithms_and_data_structures}
+This section 
+\subsection{Hash Sketches}
+\label{sec:hash_sketches}
+
+Hash Sketches are simple probabilistic data structure with which we 
+obtain the cardinality of multisets. They allow for 
+%In our case this means we can count the
+%number of different people that crossed a gate.
+Much like Bloom Filters there are several variants of this algorithm.
+Despite being different, all of these variants have at least one bit array
+and use some kind of hash function to map elements to positions in the
+aforementioned array(s).
+vc sys
+Hash Sketches have a small memory footprint, the ability to estimate the
+cardinality in a single pass over the set, as well as $O(1)$ complexity to
+add a new element and $O(m)$ complexity to estimate the cardinality (where
+$m$ is the size of the bit array).
+
+In the Gate Counter Scenario, we tested several versions of sketches: LogLog
+Sketches \cite{Durand:2003tc}, HyperLogLog Sketches \cite{Fusy:2007um}, Linear
+Counting Sketches \cite{Whang:1990uh}, Robust In Network Aggregation Linear
+Counting Sketches (RIA-LC) \cite{Fan:2008wl,YaoChungFanArbeeLPChen:2010to} and
+Robust In Network Aggregation Dynamic Counting Sketches (RIA-DC)
+\cite{YaoChungFanArbeeLPChen:2010to}.
+
+LogLog Sketches are similar to the Probabilistic Counting algorithm
+presented in \cite{Flajolet:1985wd} since both use several small bit arrays
+(called buckets) instead of a single bit array. The main difference is that
+LogLog Sketches are much less memory consuming at the expense of some
+accuracy. Their name derives from the fact that each small bit array has
+size close to $log(log(N))$, being $N$ the number of distinct elements. The
+estimate of the cardinality is obtained using the average of the several
+small bit arrays.
+
+HyperLogLog Sketches are an improvement over LogLogSketches. Using the same
+number of bits as LogLog Sketches, HyperLogLog Sketches are able to provide more
+accurate results. According to the authors in \cite{Fusy:2007um}, this
+improvement is accomplished by using \emph{harmonic means} instead of
+\emph{geometric means} in the evaluation function.
+
+Linear Counting Sketches use only a single bit array. Their name comes from the
+fact that they have $O(N)$ size, meaning their size grows linearly with the
+number of distinct elements $N$. When compared to LogLog Sketches, in Linear
+Counting Sketches the size is a drawback, but they work better for small
+cardinality sets.
+
+Both RIA-DC and RIA-LC sketches are based on the Linear Counting
+Sketches. While RIA-LC can be seen as a slightly improved/simplified version of
+Linear Counting Sketches, RIA-DC Sketches have the unique ability to
+merge sketches of different sizes. However, this ability comes with a
+price. RIA-DC Sketches assume that there is no overlap of elements belonging to
+different sketches, meaning that if we merge two different RIA-DC sketches with
+elements in common, those elements will be counted twice in the final aggregate.
+
+\subsection{Bloom Filters}
+\label{sec:bloom_filters}
+
+
+\subsection{Vector Clocks}
+\label{sec:vector_clocks}
 
 
 %%% Local Variables: 

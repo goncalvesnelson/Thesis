@@ -38,7 +38,6 @@
 \newfloat{program}{hbt}{lop}
 \floatname{program}{Program}
 
-
 \lstset{ %
 language=python,                % choose the language of the code
 basicstyle=\small,       % the size of the fonts that are used for the code
@@ -77,8 +76,6 @@ morekeywords={refines, refine, @Refines, @Refine, pointcut, call, before, after,
 \pagestyle{headings}
 
 \begin{document}
-
-
 
 %%%%%% Formal begining of the thesis
 \pagenumbering{roman}
@@ -155,9 +152,9 @@ morekeywords={refines, refine, @Refines, @Refine, pointcut, call, before, after,
 \pagenumbering{arabic}
 	
     %% chapters
-	\chapter{Introduction}
-         \input{sections/introduction.tex}
-		\mbox{}
+\chapter{Introduction}
+   \input{sections/introduction.tex}
+   \mbox{}
 % \begin{savequote}[45mm]
 % ---When shall we three meet again
 % in thunder, lightning, or in rain?
@@ -170,11 +167,11 @@ morekeywords={refines, refine, @Refines, @Refine, pointcut, call, before, after,
     \chapter{Literature Review}
         \input{sections/literature_review.tex}
 		\mbox{}
-	\chapter{Measuring Propagation Delay}
-		% \input{sections/benchmarks.tex}
+	\chapter{Gate Counting}
+		\input{sections/gate_counting.tex}
 		\mbox{}
-	\chapter{MySQL Proxy and Plugins}
-	%%	\input{sections/proxy.tex}
+	\chapter{Causality Tracking}
+	%%	\input{sections/causality_tracking.tex}
 		\mbox{}
 	\chapter{Replication Plugins Using Group Communication}
 	%%	\input{sections/spread_plugins.tex}
@@ -191,7 +188,7 @@ morekeywords={refines, refine, @Refines, @Refine, pointcut, call, before, after,
    	\mbox{}
 
 	\bibliographystyle{plain}
-	%%\bibliography{references}\addcontentsline{toc}{chapter}{Bibliography}
+	\bibliography{library}\addcontentsline{toc}{chapter}{Bibliography}
 	
 	\appendix
 %		\chapter{Módulo Criado}
