@@ -38,6 +38,8 @@
 *.vrb
 *.xdy
 *.pdf
+#except cover
+!/cover.pdf
 .DS_Store
 # Thumbnails
 ._*
