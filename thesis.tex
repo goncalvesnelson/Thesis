@@ -1,21 +1,39 @@
-\documentclass[12pt,a4paper,twoside]{book}
-\usepackage[portuges, english]{babel}
-\usepackage[utf8]{inputenc}
-\usepackage{graphicx}
-\usepackage{setspace}
-\usepackage{quotchap}
-\usepackage{hyperref}
-\usepackage[all]{hypcap}
-\usepackage{pdfpages}
-\usepackage{listings}
-\usepackage[scaled]{beramono}
-\usepackage[T1]{fontenc}
+\documentclass[12pt, a4paper, twoside]{book} % book style
+\usepackage[portuges, english]{babel} % hyphenation (english is the default)
+\usepackage[utf8]{inputenc} % allow utf-8 characters
+%\usepackage{lmodern} % use Latin Modern font
+%\usepackage{palatino} % use Palatino font
+\usepackage{charter} % use Bitstream Charter font
+\usepackage[T1]{fontenc} % T1 font encoding
+\usepackage[scaled]{beramono} % Bitstream Vera (used in code listings)
+\usepackage{microtype} % enhanced typography
+\usepackage{setspace} % provides \onehalfspacing
+\usepackage{quotchap} % pretty chapter headers
+\usepackage{hyperref} % PDF hyperlinks
+\usepackage[all]{hypcap} % fix hyperref caption problem
+\usepackage{pdfpages} % include pdf pages (for the cover)
+\usepackage{listings} % for the source code
+\usepackage{booktabs} % pretty tables, provides \toprule \midrule \bottomrule
+%\usepackage{graphicx}
+%\usepackage{asmath}
+%\usepackage{assymb}
 \usepackage{txfonts}% use Arial && Times New Roman
 \usepackage{epigraph}
-
-
 % change quotchap chapter number to black
 \definecolor{chaptergrey}{rgb}{0,0,0}
+
+% reduce vertical spacing of quotchap chapter heading
+\let\defaultchapterheadstartvskip\chapterheadstartvskip
+\makeatletter
+\renewcommand*\chapterheadstartvskip{
+  \if@mainmatter % but only in the main matter
+    \vspace*{-3.0\baselineskip}
+  \else
+    \defaultchapterheadstartvskip
+  \fi
+}
+\makeatother
+
 % set line spacing to 1.5
 \onehalfspacing
 % setup hyperref and set pdf metadata
@@ -38,57 +56,73 @@
     lineskip=-1.5pt,
 }
 
+% abstract environment
+\newenvironment{abstract}
+{\cleardoublepage \thispagestyle{plain} \null \vfill
+\begin{center} \bfseries \abstractname \end{center}}
+{\vfill \null}
+
+% acknowledgements environment
+\addto\captionsenglish{\def\ackname{Acknowledgements}} % ackname in english
+\addto\captionsportuges{\def\ackname{Agradecimentos}} % ackname in portuguese
+\newenvironment{acknowledgements}
+{\cleardoublepage \thispagestyle{plain} \null \vfill
+\begin{center} \bfseries \ackname \end{center}}
+{\vfill \null}
+
+%-----------------------------------------------------------------------------%
+
 \begin{document}
+\pagestyle{empty}
 % Cover
 \includepdf[pages=1]{cover.pdf}
+\selectlanguage{portuges}
 
-% Blank page after cover
-\newpage \null \thispagestyle{empty} \newpage
+\input{chapters/permissao.tex} % Permissao
 
-\pagestyle{empty}
-
-\input{chapters/permissao.tex} %
-
-\pagestyle{headings}
+\selectlanguage{english}
+\cleardoublepage
 % Front matter
-\frontmatter
 
 \newpage
 % Epígrafe
-\thispagestyle{empty}
-\vspace*{0.8\textheight}
-\setlength{\epigraphwidth}{9cm}
-\renewcommand{\textflush}{flushright}
-\epigraph{Experience is what you get when you didn’t get what you wanted.}
-            {Randy Pausch (The Last Lecture)}
+\vspace*{0.8\textheight} \setlength{\epigraphwidth}{9cm}
+\renewcommand{\textflush}{flushright} \epigraph{It suddenly struck me
+  that that tiny pea, pretty and blue, was the Earth. I put up my
+  thumb and shut one eye, and my thumb blotted out the planet Earth. I
+  didn’t feel like a giant. I felt very, very small.}
+{Neil Armstrong}
 
-\newpage\null\thispagestyle{empty}\newpage
+\cleardoublepage
+\frontmatter
+\pagestyle{headings}
 \input{ack.tex} % Acknowledgments
-\newpage
+\selectlanguage{portuges}
 \input{resumo.tex} % Resumo
-\newpage
+\selectlanguage{english}
 \input{abstract.tex} % Abstract
-\newpage
+
 \tableofcontents
 \listoffigures
 \addcontentsline{toc}{chapter}{\listfigurename}
 \listoftables
 \addcontentsline{toc}{chapter}{\listtablename}
-\newpage\null\thispagestyle{empty}\newpage
 
 % Main matter
 \mainmatter
+\renewcommand{\chapterheadstartvskip}{\vspace*{-1.0\baselineskip}}
 \input{chapters/introduction.tex} % Introduction
 \input{chapters/literature_review.tex} % Chapter 2
 \input{chapters/gate_counting.tex} % Chapter 3
 \input{chapters/causality_tracking.tex} % Chapter 3
-% \input{chapters/conclusions.tex}
+\input{chapters/conclusion.tex}
 % \appendix
 % \input{appendices/appendixA.tex} % Appendix A
 % \input{appendices/appendixB.tex} % Appendix B
 
 % Back matter
 \backmatter
+\renewcommand{\chapterheadstartvskip}{\vspace*{-2.3\baselineskip}}
 \bibliographystyle{plain}
 \bibliography{library}
 \addcontentsline{toc}{chapter}{\bibname}

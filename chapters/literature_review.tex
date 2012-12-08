@@ -1,36 +1,36 @@
 \chapter{Literature Review}
+\label{chap:literature_review}
 
 This chapter exposes some of the works whose content is relevant to
 the context of this dissertation. Section
 \ref{sec:privacy_pervasive_computing} begins by explaining the concept
-of privacy in pervasive computing and it's importance. It then follows
+of location privacy in pervasive computing and it's importance. It then follows
 with the presentation of some of the approaches already used in the
-field of pervasive computing regarding privacy. Lastly, Section
+ofield of pervasive computing regarding this topic. Lastly, Section
 \ref{sec:algorithms_and_data_structures} provides some background to
 the algorithms and classic data structures used in our approach to ensure
 privacy.
-
-\section{Privacy in Pervasive Computing}
+\section{Location Privacy in Pervasive Computing}
 \label{sec:privacy_pervasive_computing}
 
-\subsection{Definition of Privacy}
+\subsection{Definition of Location Privacy}
 \label{sec:definition_privacy}
-
 As location based services become more popular and compelling, there
 is an increasing temptation to give away location data. However, along
-with this temptation comes an increasing concern about location privacy.
+with this temptation comes an increasing concern about location
+privacy.
 
 Beresford and Stajano ~\cite{1186725} define location privacy as:
 \begin{quotation}
-  the ability to prevent other parties to from learning one's
+  ...the ability to prevent other parties to from learning one's
   current or past location.
 \end{quotation}
 Their definition implies that a person whose location is being
 monitored must be able to control who has access that information.
-It also acknowledges that both past and present location information
+It also acknowledges that both past and present information regarding location
 are important. While current location information might enable an
 attacker to find out where a person is, past data can allow him/her to
-discover who the person is and  where does she live/work among other
+discover who the person is and where does she live/work among other
 things.
 
 According Duckham and Kulik~\cite{duckham2006location} location
@@ -60,87 +60,269 @@ location information and the way it can be shared:
 \item Extent: A user might prefer to have her location reported as an
   ambiguous region rather than as a precise point.
 \end{itemize}
-These different characteristics are the topic of many different
+These different aspects are the topic of many different
 computational schemes for protecting the privacy of the users.
 Examples of such schemes are the use of pseudonyms instead of actual
-names, the deliberate addition of noise to the location data and the use
+names, the deliberate addition of noise to the location data or the use
 of regions for location reporting instead of specific points.
 
 \subsection{Related Work}
-\label{sec:related_work}
+\label{sec:lp_related_work}
 
 % In the context of ubiquitous computing, there are already several
 % techniques aimed at ensuring the privacy of data regarding the
 % location of the users.
 
-Nowadays mobile phones come equipped with lots of sensors
+In the past few years there has been an exponential increase in the
+number of mobile devices (smartphones, laptops, tablets). Many of
+these devices come equipped with several types of sensors
 (accelerometer , gyroscope, thermometer, GPS) as well as communication
-interfaces (Bluetooth, WiFi). The growing number of mobile phones
-together with their mentioned capabilities makes them viable building
-blocks for urban infrastructures~\cite{kostakos2009understanding} as
-well as targets for services such as Location Based Services(LBS).
-targets for 
-well as 
+interfaces (Bluetooth, WiFi). Their pervasiveness associated with
+their capabilities make them viable building blocks for urban
+pervasive infrastructures~\cite{kostakos2009understanding}. Associated
+with the increasing number of mobile devices is the popularity growth
+of Location-Based Services (LBS)\cite{zickuhr2012three}. LBSs
+determine the location of the user by using one of several
+technologies for determining position, and then use the location and
+other information to provide personalized applications and
+services~\cite{zibuschka2011location}. There are however privacy risks
+that stem from the use of such services.
+PleaseRobMe\footnote{pleaserobme.com} was created to raise awareness
+for the risks of sharing location information. Combining information
+from FourSquare\footnote{https://foursquare.com/} and
+Twitter\footnote{www.twitter.com} it demonstrates how easy it is to
+infer that someone is not at home. Despite the existence of reports
+linking the sharing of location information with the occurrence of
+robberies\cite{Grove:2009:Online,Dybwad:2009:Online}, there are
+several research works that show that most people put little value on
+their location privacy~\cite{ahern2007over,colbert2001diary,
+  Cvrcek:2006:SVL:1179601.1179621,kaasinen2003user}. However, this
+lack of concern by the users of LBSs is usually a consequence of lack
+of awareness. In \cite{kaasinen2003user} the author notes that,
+despite not being worried about the privacy issues with location aware
+services, most of the users were not aware they could be located while
+using those services. On the other hand, the work in
+\cite{Cvrcek:2006:SVL:1179601.1179621} shows that the Greeks demanded
+a higher price for their location data when compared with the other EU
+countries. According to the author, this might have been a consequence
+of the eavesdropping scandal involving the wiretap of Greek
+politicians that took place 2 months before the survey. This might
+indicate that people value their privacy the most when faced with
+consequences from the lack of it. Sharing location data at such a
+large scale like we see today is relatively new. As a consequence the
+effects on user privacy are not fully understood
+yet \cite{Terrovitis:2011:PPD:2031331.2031334}.
 
-as well as the 
-These capabilities along with the
-growing number of mobile phones make
-Due to the growing number of web enabled, context and location aware mobile
-devices, there is nowadays an increasing number of services and infrastructures built around these
-capabilities has been increasing substantially. Among the offered
-services, one of the most popular 
+According to Duckham and Kulik survey in \cite{duckham2006location},
+there are four commonly used methods for ensuring location privacy:
+\begin{itemize}
+\item Regulatory strategies: comprised by government rules on the use
+  of personal information.
+\item Privacy Policies: trust-based mechanisms established
+  between individuals and whomever is receiving their location data.
+\item Anonymity: Disassociation between the individual's personal
+  information and individual's actual identity. Usually obtained through
+  the use of pseudonyms,ambiguity and cloaking.
+\item Obfuscation: degradation of the quality of the location data.
+\end{itemize}
 
+From these four methods, we will concentrate in the last two because
+they are the most relevant in the context of this dissertation.
 
-there has been an increase in the popularity and number of
-Location Based Services (LBS)~\cite{wang2008location}. However as
-location tracking c
-Along with these 
+\subsubsection{Anonymity}
+\label{sec:privacy_anonimity}
 
-As mobile phones have matured as a computing platform and acquired
-richer functionality, these advancements often have been paired with
-the introduction of new sensors. For example, accelerometers have
-become common after being initially introduced to enhance the user
-interface and use of the camera. They are used to automatically
-determine the orientation in which the user is holding the phone and
-use that information to automatically re-orient the display between a
-landscape and portrait view or correctly orient captured photos during
-viewing on the phone.
+The use of pseudonyms is perhaps the most obvious way to achieve
+anonymity. However, using same pseudonym for a long time makes it is
+easy for an attacker to gather enough history on an individual to
+infer their habits or true identity. To try to mitigate this issue,
+Beresford and Stajano in \cite{1186725} proposed an idea which relied
+upon pseudonym exchange. They introduced two new concepts: \emph{mix
+  zone} and \emph{application zone}. A \emph{mix zone} for a group of
+people is defined as the maximum contiguous area where none of the
+group's users exchanges information with a LBS. This prevents the
+users' data from being accessed by the LBSs providers. By contrast, an
+\emph{application zone} is defined as an area where at least one of
+the users exchanges data with a LBS. By switching her pseudonym to a
+new unused one when entering a \emph{mix zone}, the user ensures that
+there is no way for a LBS provider to distinguish between her and the
+other users who were in that zone. This means that there is no way for
+attackers to link people going into the mix zone with the ones that
+come out of it.
 
-Figure 1 shows the suite of sensors found in
-the Apple iPhone 4. The phone’s sensors include a gyroscope, compass,
-accelerometer, proximity sensor, and ambient light sensor, as well as
-other more conventional devices that can be used to sense such as
-front and back facing cameras, a microphone, GPS and WiFi, and
-Bluetooth radios. Many of the newer sensors are added to support the
-user interface (e.g., the accelerometer) or augment location-based
-services (e.g., the digital compass). The proximity and light sensors
-allow the phone to perform simple forms of context recognition
-associated with the user interface. 
+Based on a different concept, \emph{k-anonymity} (introduced by
+Samarati and Sweeney in~\cite{samarati1998protecting}) Gruteser and
+Grunwald~\cite{gruteser2003anonymous} were the first to investigate
+anonymity as a method to attain location privacy. According to them, a
+subject is considered to be k-anonymous with regard to location
+information, if and only if she is indistinguishable from at least
+$k-1$ other subjects with respect to a set of
+\emph{quasi-identifier}\footnote{Data that by itself does not uniquely
+ identify a user but that in association with other
+ information might}
+attributes. Bigger values of $k$ correspond to higher degrees of
+anonymity. They proposed a middleware architecture and an algorithm
+capable of adjusting location information resolution in spacial and/or
+temporal dimensions in order to comply with a specific
+\emph{k-anonymity} requirement. When a client requests a service,
+their algorithm calculates a \emph{cloaking box/region} that contains
+that client along with at least $K-1$ other users. That box is then
+used as the client's location to request the service. If that box's
+resolution is to coarse for some services, temporal cloaking can be
+applied by delaying the user's service request. When more users come
+near the client, a smaller cloaking region can be computed. This concept
+has since been explored and improved in other scientific works.
 
-The proximity sensor detects, for
-example, when the user holds the phone to her face to speak. In this
-case the touchscreen and keys are disabled, preventing them from
-accidentally being pressed as well as saving power because the screen
-is turned off. Light sensors are used to adjust the brightness of the
-screen. The GPS, which allows the phone to localize itself, enables
-new location-based applications such as local search, mobile social
-networks, and navigation. The compass and gyroscope represent an
-extension of location, providing the phone with increased awareness of
-its position in relation to the physi- cal world (e.g., its direction
-and orientation) enhancing location-based applications.
+Geddik and Liu's
+\emph{ClickCloak} algorithm
+~\cite{gedik2005location,gedik2008protecting} allows each user to
+define her own minimum acceptable value for $k$ ($k_{min}$), as well
+as the maximum acceptable values for temporal and spacial resolution.
+Furthermore, they created an efficient message perturbation engine
+capable of performing the location anonymization of users' requests.
+This is accomplished by removing the users' identities from the
+requests and with the use of spatiotemporal obfuscation of the
+location information. 
 
-Not only are these sensors useful in driving the user interface and
-providing location-based services; they also represent a significant
-opportunity to gather data about people and their environments. For
-example, accelerometer data is capable of characterizing the physical
-move- ments of the user carrying the phone
+Mokbel et al. in~\cite{mokbel2006new} use the \emph{k-anonymity} concept as well.
+They present the Casper framework which consists of two main
+components, a location anonymizer and a privacy-aware query processor.
+The location anonymizer blurs the location information about each user
+according to that user's defined preferences (minimum area $A_{min}$
+in which she wants to hide and minimum value for $k$). The query
+processor tunes the functionality of traditional location-based
+databases to be privacy-aware. It does so by returning cloaked areas
+instead of exact points when queried for location information.
 
- The progress registered
+Unlike the previous \emph{k-anonymity} based approaches that require a
+centralized trusted server (Anonymizer) in order to compute the cloaking
+regions, Ghinita et al. in ~\cite{ghinita2007prive} use a
+decentralized peer-to-peer approach. This fixes two issues inherent to
+the centralized server approach: 
+\begin{itemize}
+\item Fault Tolerance -  the
+anonymizer is a single point of failure and the system cannot work
+without it.
+\item Security - all requests must go through the anonymizer, so in
+  case it becomes compromised it would result in a serious security
+  threat.
+\end{itemize}
+Their distributed protocol called PRIVÉ supports decentralized query
+anonymization with load balancing and fault tolerance. In PRIVÉ, for a
+user to be considered trustworthy and participate in the network she
+needs a trust certificate obtained from a Certification Server. Users
+in the network trust each other and communicate using a structured
+peer-to-peer network. Users are grouped into clusters according to
+their location. Each cluster has a leader which is recursively grouped
+with other leaders to form other clusters with different leaders, just
+like a B-Tree structure. This allows each user to create it's own
+cloaking region by using information from other nearby users.
+Furthermore, PRIVÉ also ensures \emph{reciprocity} in the creation of
+cloaking regions. A cloaking region with $k$ users satisfies
+reciprocity only if that same cloaking region is generated for each of
+users. This means that an attacker cannot use \emph{minimality} attacks
+\cite{wong2007minimality}, i.e. it cannot infer which user is the
+source of the request with a probability bigger than $\frac{1}{k}$.
 
+\subsubsection{Obfuscation}
+\label{sec:Obfuscation}
+
+Obfuscation based techniques usually degrade the ``quality'' of the
+information in order to provide privacy protection. Even tough this may
+seem comparable to what \emph{k-anonymity} based techniques, there is a
+key difference. Obfuscation based techniques allow the actual identity
+of the user to be revealed (thus making it suitable for applications
+that require authentication or offer some sort of  personalization
+\cite{langheinrich2001privacy}).
+
+Duckam and Kulik
+\cite{duckham2005formal} were the ones who introduced the idea of
+obfuscation for location privacy. They talk about three distinct types of
+imperfection that can be present in spacial information:
+\begin{itemize}
+\item Inaccuracy - lack of correspondence between information and
+  reality. E.g. ``Braga is in Spain''
+\item Imprecision - lack of specificity in the information. E.g.
+  ``Braga is in Europe''
+\item Vagueness - special type of imprecision that concerns the
+  existence of indeterminate borderline
+  cases~\cite{duckham2001formal}. E.g. ``Braga is in western Europe''.
+  This is a vague statement since there is no clear definition about
+  the borders of western Europe.
+\end{itemize}
+
+Any of these types of imperfection can be used to obfuscate an
+individual's location. In this particular case, the authors use
+imprecision to degrade the quality of the location information.
+They adopt a discrete model for space representation through the use of
+graphs. Geographic locations are modeled as a set of vertices $V$, and
+the connectivity or adjacency between them is modeled as a set of
+Edges $E$. A user's location is represented through a
+vertex $l \in V$. Obfuscation is provided through the use of a group
+of vertices $O$ such that $l \in O$ and $O \in V$, where for every
+element $o \in O$, $o$ is \emph{indiscernible} from $l$. The larger
+the set $O$, the less information is being revealed and therefore, the
+greater is the individual's privacy. The set $O$ is used by their
+algorithms to negotiate the balance between an individual's location
+privacy and that individual's need for quality services. The more
+information an individual is willing to reveal the higher the quality
+of information he can provided with.
+
+Another example of an obfuscation based approach is introduced by
+Ardagna et al. in ~\cite{ardagna2007middleware} and later improved in
+\cite{ardagna2007location, ardagna2011obfuscation}. Their obfuscation
+process allows users to express their privacy preferences using
+another concept of theirs called \emph{relevance}. Relevance is a
+value in the range $]0,1]$ and it represents the relative accuracy
+loss in location measurement. It tends to 0 when the location
+measurement is highly inaccurate and it is equal to 1 when the
+location measurement achieves the best accuracy allowed by the
+location technique in use. The higher the relevance the lower will be the
+location privacy. Moreover, they define a set of basic
+\emph{obfuscation operators} that are used to modify location
+measurements. These operators can be further composed in order to
+increase robustness against deobfuscation attacks and are
+randomly selected and applied to the user's measured location ensuring
+that the selected relevance value holds. This solution allows users to
+abstract from both the obfuscation operators and the sensing
+technology (Bluetooth, Wifi, GPS).
+
+% Other approach to obfuscation is the degradation of data over time. 
+% Uma outra estratégia para assegurar a privacidade, consiste na
+% degradação dos dados~\cite{anciaux2008instantdb,heerde2006data}. Neste tipo
+% de abordagens a privacidade é garantida através de uma generalização dos
+% dados.
+% Este procedimento é feito com recurso a árvores de
+% generalização~\cite{anciaux2008instantdb} ou grafos de
+% generalização~\cite{heerde2006data}. Este tipo de estruturas agrupa um
+% conjunto de regras a aplicar na generalização dos dados. A aplicação
+% das mesmas depende da política de ciclo de vida(\textit{LFS \-- life
+% cycle policy}). Esta política consiste no conjunto de transições entre os
+% ramos/vértices das estruturas de generalização assim como dos eventos
+% que as desencadeiam. O maior desafio deste tipo de abordagens está
+% relacionado com a dificuldade na construção dos conjuntos de regras e
+% de estruturas de generalização.
+
+% for self-protection, it is natural and necessary for a user to
+% withhold her true identity when requesting an LBS. However, simply
+% using a pseudonym, or not using any identifier at all, is not
+% sufficient. This is due to the fact that a user’s location itself may
+% be correlated with restricted spaces such as house and of- fice to
+% reveal her real-world identity. For example, if a location belongs to
+% a private property, then the adversary can derive that the user is
+% most likely the owner of the property. A single loca- tion sample may
+% not be linked directly to a particular user, but the accumulation of a
+% time-series sequence of her location samples will eventually reveal
+% her identity \cite{gruteser2005anonymity, xu2007location}. Once the
+% user is identified, all her visits may be disclosed.
 
 \section{Algorithms and data structures}
 \label{sec:algorithms_and_data_structures}
-This section 
+In our work, we tested how we the usage of stochastic summarizing
+techniques fared as an approach to some privacy preserving scenarios.
+This section briefly explains the algorithms and data structures that
+were used in our approach.
+
 \subsection{Hash Sketches}
 \label{sec:hash_sketches}
 
@@ -200,7 +382,6 @@ elements in common, those elements will be counted twice in the final aggregate.
 
 \subsection{Vector Clocks}
 \label{sec:vector_clocks}
-
 
 %%% Local Variables: 
 %%% mode: latex
