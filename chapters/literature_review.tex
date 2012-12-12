@@ -268,7 +268,7 @@ privacy and that individual's need for quality services. The more
 information an individual is willing to reveal the higher the quality
 of information he can provided with.
 
-Another example of an obfuscation based approach is introduced by
+Another example of an obfuscation based approach is shown by
 Ardagna et al. in ~\cite{ardagna2007middleware} and later improved in
 \cite{ardagna2007location, ardagna2011obfuscation}. Their obfuscation
 process allows users to express their privacy preferences using
@@ -287,21 +287,20 @@ that the selected relevance value holds. This solution allows users to
 abstract from both the obfuscation operators and the sensing
 technology (Bluetooth, Wifi, GPS).
 
-% Other approach to obfuscation is the degradation of data over time. 
-% Uma outra estratégia para assegurar a privacidade, consiste na
-% degradação dos dados~\cite{anciaux2008instantdb,heerde2006data}. Neste tipo
-% de abordagens a privacidade é garantida através de uma generalização dos
-% dados.
-% Este procedimento é feito com recurso a árvores de
-% generalização~\cite{anciaux2008instantdb} ou grafos de
-% generalização~\cite{heerde2006data}. Este tipo de estruturas agrupa um
-% conjunto de regras a aplicar na generalização dos dados. A aplicação
-% das mesmas depende da política de ciclo de vida(\textit{LFS \-- life
-% cycle policy}). Esta política consiste no conjunto de transições entre os
-% ramos/vértices das estruturas de generalização assim como dos eventos
-% que as desencadeiam. O maior desafio deste tipo de abordagens está
-% relacionado com a dificuldade na construção dos conjuntos de regras e
-% de estruturas de generalização.
+There are other examples of obfuscation approaches that are not only
+oriented to location data but to the degradation of data in general
+\cite{anciaux2008instantdb,heerde2006data}. In these approaches,
+privacy is obtained through the generalization of the information.
+This procedure is done resorting to generalization trees
+\cite{anciaux2008instantdb} or generalization graphs
+\cite{heerde2006data}. These structures contain the sets of rules to
+be applied in the generalization process. The application of these
+rules depends on the Life Cycle Policy (LCP). A LCP consists of the
+set of transitions between the generalization structures'
+branches/vertexes as well as the events that trigger them. The biggest
+challenge in this type of approaches is the difficulty associated with 
+the construction of the sets of rules and the generalization
+structures.
 
 % for self-protection, it is natural and necessary for a user to
 % withhold her true identity when requesting an LBS. However, simply
@@ -326,56 +325,130 @@ were used in our approach.
 \subsection{Hash Sketches}
 \label{sec:hash_sketches}
 
-Hash Sketches are simple probabilistic data structure with which we 
-obtain the cardinality of multisets. They allow for 
-%In our case this means we can count the
-%number of different people that crossed a gate.
-Much like Bloom Filters there are several variants of this algorithm.
-Despite being different, all of these variants have at least one bit array
-and use some kind of hash function to map elements to positions in the
-aforementioned array(s).
-vc sys
-Hash Sketches have a small memory footprint, the ability to estimate the
-cardinality in a single pass over the set, as well as $O(1)$ complexity to
-add a new element and $O(m)$ complexity to estimate the cardinality (where
-$m$ is the size of the bit array).
+Hash Sketches are simple probabilistic data structure used to obtain
+the number of distinct elements in both sets and multisets. From now
+on, whenever we mention the capabilities of hash sketches in
+multisets, the same applies for sets. There are several variants of
+this algorithm. Despite being different, all the variants we discuss
+have at least one bit array and use some kind of hash function to map
+elements from the multiset to positions in the aforementioned
+array(s). The main idea is to use an hash function to randomize data
+and create what closely resembles an uniform and independent binary
+data structure. This pragmatism is justified by Knuth
+\cite{knuth1998art}:
+\begin{quotation}
+It is theoretically impossible to define a hash
+function that creates random data from non-random data in actual
+files. But it is not difficult to produce a pretty good imitation of
+random data.  
+\end{quotation}
+This binary data structure is then used as input to an
+\emph{estimator} function that returns the an \emph{estimation} of
+number of distinct elements in the multiset, it does not return exact
+results. The estimator works by performing some tests on the hashed
+binary data, compare the results with what probabilistic analysis
+predicts, and then finally infer a plausible value for the number of
+distinct elements.
 
-In the Gate Counter Scenario, we tested several versions of sketches: LogLog
-Sketches \cite{Durand:2003tc}, HyperLogLog Sketches \cite{Fusy:2007um}, Linear
-Counting Sketches \cite{Whang:1990uh}, Robust In Network Aggregation Linear
-Counting Sketches (RIA-LC) \cite{Fan:2008wl,YaoChungFanArbeeLPChen:2010to} and
-Robust In Network Aggregation Dynamic Counting Sketches (RIA-DC)
+In Hash sketches, the same element is always mapped to the same
+position(s) in the binary array(s). That is the reason this algorithm
+is only suitable to estimate the number of distinct elements (which
+is the same as cardinality in sets but not in multisets).
+
+Due to their probabilistic nature, Hash Sketches also have a smaller
+memory footprint than the one that would be needed in a deterministic
+approach. They also have the ability to estimate
+the number of different elements incrementally and in a single pass
+over the multiset. This gives them the ability to provide online
+estimates at any time even in dynamic scenarios where there is a
+constant flow of data. 
+
+In the Gate Counter Scenario (Chapter \ref{cha:gate-counting}), we
+tested several versions of sketches: LogLog Sketches
+\cite{Durand:2003tc}, HyperLogLog Sketches \cite{Fusy:2007um}, Linear
+Counting Sketches \cite{Whang:1990uh}, Robust In Network Aggregation
+Linear Counting Sketches (RIA-LC)
+\cite{Fan:2008wl,YaoChungFanArbeeLPChen:2010to} and Robust In Network
+Aggregation Dynamic Counting Sketches (RIA-DC)
 \cite{YaoChungFanArbeeLPChen:2010to}.
 
-LogLog Sketches are similar to the Probabilistic Counting algorithm
-presented in \cite{Flajolet:1985wd} since both use several small bit arrays
-(called buckets) instead of a single bit array. The main difference is that
-LogLog Sketches are much less memory consuming at the expense of some
-accuracy. Their name derives from the fact that each small bit array has
-size close to $log(log(N))$, being $N$ the number of distinct elements. The
-estimate of the cardinality is obtained using the average of the several
-small bit arrays.
+LogLog Sketches \cite{Durand:2003tc} are similar to the Probabilistic
+Counting with Stochastic Averaging (PCSA) algorithm presented in
+\cite{Flajolet:1985wd} since both use several small bit arrays (called
+buckets) instead of a single bit array. This concept was introduced in
+\cite{Flajolet:1985wd} under the name \emph{stochastic averaging} and
+its purpose is to reduce the \emph{variability} of the estimates, thus
+improving their accuracy. The main difference between PCSA and LogLog
+Sketches is that the latter consume a lot less memory at the expense
+of some accuracy. To insert an element in the LogLog Sketch, one has
+to calculate its hash. The first bits of the hash code are used to
+figure in which bucket the element should be inserted into. The rest
+of the bits are used to calculate the position inside that bucket in
+which it should be inserted. Initially all the bits in each bucket are
+set to $0$. The estimate of the number of distinct
+elements is obtained using the average of the several buckets. The
+name LogLog Sketch derives from the fact that each small bit array has
+size close to $log(log(N))$, being $N$ the number of distinct
+elements.
 
-HyperLogLog Sketches are an improvement over LogLogSketches. Using the same
-number of bits as LogLog Sketches, HyperLogLog Sketches are able to provide more
-accurate results. According to the authors in \cite{Fusy:2007um}, this
-improvement is accomplished by using \emph{harmonic means} instead of
-\emph{geometric means} in the evaluation function.
+HyperLogLog Sketches \cite{Fusy:2007um} are an improvement over LogLog
+Sketches. In both algorithms, greater accuracy can obtained at the cost
+of bigger space requirements and lower space requisites can be bought
+at the expense of reduced accuracy. However, using the
+same number of bits as LogLog Sketches, HyperLogLog Sketches are able
+to provide more accurate results. According to the authors, this
+improvement stems from the use of \emph{harmonic means} instead of
+\emph{geometric means} in the estimator function. Figure
+\ref{fig:hyperloglog_sketches} shows the behavior of these algorithms.
+Assuming we have already removed the first bits of each element's hash
+and that they all pointed to the same bucket, insertion works as
+follows:
+\begin{enumerate}
+\item Starting from left to right (it could be done from right to
+  left, as long as we stay coherent), let $i$ be the first
+  index whose bit is set to 1. In case of ``ELEM1'', $i=4$.
+\item Counting on the same direction as the first step and
+  assuming indexes start at $1$, set bucket$[i]=1$. In case of
+  ``ELEM1'', we set bucket[4]=1.
+\item Repeat the above steps for all elements.
+\end{enumerate}
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=\textwidth]{images/hash_sketch.png}
+  \caption{Insertion of an element into a (Hyper)LogLog Sketch}
+  \label{fig:hyperloglog_sketches}
+\end{figure}
 
-Linear Counting Sketches use only a single bit array. Their name comes from the
-fact that they have $O(N)$ size, meaning their size grows linearly with the
-number of distinct elements $N$. When compared to LogLog Sketches, in Linear
-Counting Sketches the size is a drawback, but they work better for small
-cardinality sets.
+Linear Counting (LC) Sketches \cite{Whang:1990uh}, on the other hand,
+use a single bit array/sketch. This sketch is initialized with $0$s.
+When an item is to be inserted, its hash value is used to calculate an
+index within the sketch, which is then set to $1$. To calculate the
+estimate of the number of different items, the algorithm has to use
+the fraction of empty sketch entries. In order to obtain this value,
+it counts the number of empty sketch entries (the number of $0$
+entries in the sketch) and divides it by the total size of the sketch.
+Their name comes from their linear space complexity $O(Nmax)$ (where
+$Nmax$ is the maximum number of different elements the sketch can
+hold), i.e. their size grows linearly with the number of distinct
+elements they can hold. Compared to (Hyper)LogLog Sketches, LC
+Sketches' space complexity is a drawback, specially for multisets with
+large numbers of distinct elements. However, LC Sketches are easier to
+implement and also provide better estimates in multisets with a small
+number of distinct elements.
 
-Both RIA-DC and RIA-LC sketches are based on the Linear Counting
-Sketches. While RIA-LC can be seen as a slightly improved/simplified version of
-Linear Counting Sketches, RIA-DC Sketches have the unique ability to
-merge sketches of different sizes. However, this ability comes with a
-price. RIA-DC Sketches assume that there is no overlap of elements belonging to
-different sketches, meaning that if we merge two different RIA-DC sketches with
-elements in common, those elements will be counted twice in the final aggregate.
+Both RIA-DC and RIA-LC Sketches are based on the Linear Counting
+Sketches. While RIA-LC can be seen as a slightly improved/simplified
+version of Linear Counting Sketches, RIA-DC Sketches have the unique
+ability to merge sketches of different sizes. However, this ability
+comes with a price. RIA-DC Sketches assume that there is no overlap of
+elements belonging to different sketches, meaning that if we merge two
+different RIA-DC sketches with elements in common, those elements will
+be counted twice in the final aggregate.
 
+It is also worth noting that all the ``observables'' i.e. bit
+array(s) used by the above algorithms are order insensitive.
+This means that the order in which the elements are inserted does not
+affect the output of the estimator functions.
 \subsection{Bloom Filters}
 \label{sec:bloom_filters}
 
