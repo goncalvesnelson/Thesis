@@ -40,6 +40,8 @@
 *.pdf
 #except cover
 !/cover.pdf
+#except image folder
+!/images/*
 .DS_Store
 # Thumbnails
 ._*

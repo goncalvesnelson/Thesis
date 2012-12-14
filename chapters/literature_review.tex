@@ -317,7 +317,7 @@ structures.
 
 \section{Algorithms and data structures}
 \label{sec:algorithms_and_data_structures}
-In our work, we tested how we the usage of stochastic summarizing
+In our work, we tested how the usage of stochastic summarizing
 techniques fared as an approach to some privacy preserving scenarios.
 This section briefly explains the algorithms and data structures that
 were used in our approach.
@@ -372,6 +372,8 @@ Linear Counting Sketches (RIA-LC)
 Aggregation Dynamic Counting Sketches (RIA-DC)
 \cite{YaoChungFanArbeeLPChen:2010to}.
 
+\subsubsection{LogLog Sketches}
+\label{sec:loglog-sketches}
 LogLog Sketches \cite{Durand:2003tc} are similar to the Probabilistic
 Counting with Stochastic Averaging (PCSA) algorithm presented in
 \cite{Flajolet:1985wd} since both use several small bit arrays (called
@@ -390,6 +392,8 @@ obtained using the average of the several buckets. The name LogLog
 Sketch derives from the fact that each small bit array has size close
 to $log(log(N))$, being $N$ the number of distinct elements. 
 
+\subsubsection{HyperLogLog Sketches}
+\label{sec:hyperloglog-sketches}
 HyperLogLog Sketches \cite{Fusy:2007um} are an improvement over LogLog
 Sketches. In both algorithms, greater accuracy can obtained at the
 cost of bigger space requirements and lower space requisites can be
@@ -418,11 +422,13 @@ follows:
 \end{enumerate}
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=\textwidth]{images/hash_sketch.png}
+  \includegraphics[width=\textwidth]{images/hash_sketch.pdf}
   \caption{Insertion of an element into a (Hyper)LogLog Sketch}
   \label{fig:hyperloglog_sketches}
 \end{figure}
 
+\subsubsection{Linear Counting Sketches}
+\label{sec:line-count-sketch}
 Linear Counting (LC) Sketches \cite{Whang:1990uh}, on the other hand,
 use a single bit array/sketch. This sketch is initialized with $0$s.
 When an item is to be inserted, its hash value is used to calculate an
@@ -443,6 +449,8 @@ multisets with large numbers of distinct elements. However, LC
 Sketches are easier to implement and also provide better estimates in
 multisets with a small number of distinct elements. 
 
+\subsubsection{Robust In-Network Aggregation Linear Counting Sketches}
+\label{sec:robust-netw-linear}
 Both RIA-DC \cite{Fan:2008wl,YaoChungFanArbeeLPChen:2010to} and RIA-LC
 Sketches \cite{YaoChungFanArbeeLPChen:2010to} are based on LC
 Sketches. RIA-LC sketches can be seen as a slightly
@@ -450,6 +458,8 @@ improved/simplified version of Linear Counting Sketches, less prone to
 the overflow problem that occurs when all the bits in the sketch are
 set to $1$. 
 
+\subsubsection{Robust In-Network Aggregation Dynamic Counting Sketches}
+\label{sec:robust-netw-dynamic}
 One of the major issues with all of the previous algorithms is the
 merge operation. All of them allow the merging of several sketches of
 the same type to obtain an aggregate count of the number of distinct
@@ -469,15 +479,206 @@ be counted twice in the final aggregate.
 It is also worth noting that all the ``observables'' i.e. bit
 array(s)/sketches used by the above algorithms are duplicate and order
 insensitive. This means that neither the order in which elements
-are inserted nor the insertion of repeated elements affect the
+are inserted, nor the insertion of repeated elements affect the
 output of the estimator functions.
 
 \subsection{Bloom Filters}
 \label{sec:bloom_filters}
 
+Bloom Filters (BFs) were created in 1970 \cite{Bloom1970} by Burton
+Howard Bloom. They are a simple and space efficient data structure for
+set representation where membership queries are allowed. Bloom Filters
+allow false positives but do not allow false negatives,i.e, when
+querying a Bloom Filter about the existence of an element in a given
+set, if the answer is no, then the element is definitely not in the
+set, else if the answer is yes, the element might be in the set.
+
+A Bloom Filter for representing a set of $n$ items $S =
+\{x_1,x_2,x_3,...,x_n\}$ is traditionally implemented using an array
+of $M$ bits, all initially set to 0. Then, $k$ independent hash
+functions are used $\{h_1,h_2,...,h_k \}$, each one mapping the
+element of the set into a random number uniformly distributed over the
+range $\{1,...,M\}$. For each element $x$ of the set ($x \in S $) the
+bits of the positions $h_i (x)$ are all set to 1 for $1 \leq i \leq
+k$. A location can be set to 1 multiple times. Due to the independence
+of the hash functions, nothing prevents collisions in the outputs. In
+extreme cases it is possible to have $h_1(x) = h_2(x) = ... = h_k(x)$.
+To prevent this, we use the variant of Bloom Filters presented in
+\cite{Chang04approximatecaches} which partitions the $M$ bits among
+the $k$ hash functions, creating $k$ slices of $m = M/k$ bits. This
+ensures each item added to the filter is always described by $k$ bits.
+Given a Bloom Filter $BF_S$, checking if an element $z \in BF_S$,
+consists in verifying whether all $h_i(z)$ are set to 1. If they
+aren't, then $z$ is definitely not present on the filter. Otherwise,
+if all the bits are set to 1, then it is assumed that $z$ belongs to
+$BF_S$ although that assumption might be wrong. This false positive
+probability exists because the tested indexes might have been set by
+the insertion of other elements. Figure \ref{fig:bloom_filter}
+illustrates such an example.
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=\textwidth]{images/bloom_filter.pdf}
+  \caption{ Bloom Filter with $k=3$, $M=21$ and $m=7$, containing
+    elements $\{x,y,z\}$. Querying for the presence of element $w$
+    yields a false positive.}
+  \label{fig:bloom_filter}
+\end{figure}
+
+The false positive probability $P$
+can be obtained using equation (\ref{eq:false_positive}), where $p$ is
+the ratio between the number of set bits in the slice and the slice
+size $m$. The fill ratio $p$ can be obtained through equation
+(\ref{eq:fill_ratio}).
+
+\begin{equation}
+  \label{eq:false_positive}
+  P = (1-p)^k
+\end{equation}
+
+\begin{equation}
+  \label{eq:fill_ratio}
+  p = 1-(1-\frac{1}{m})^n
+\end{equation}
+
+Furthermore, given a maximum false positive probability $P$, and the
+number $n$ of distinct elements to store, equations
+(\ref{eq:optimal_hash_number}) and (\ref{eq:optimal_slice_size}) can
+be used to estimate the optimal number of bits required by a Bloom
+Filter to store those $n$ elements, $M=m*k$.
+
+\begin{equation}
+  \label{eq:optimal_hash_number}
+  k = log_2(\frac{1}{P})
+\end{equation}
+
+\begin{equation}
+  \label{eq:optimal_slice_size}
+  m = \frac{n*|lnP|}{k*(ln2)^2}
+\end{equation}
+
+\subsubsection{Counting Bloom Filters}
+\label{sec:count-bloom-filt}
+
+Counting Bloom Filters (CBFs) were presented in
+\cite{Fan98summarycache:} although they were only given this name
+later in \cite{Mitzenmacher:2002:CBF:581876.581878}. They were
+introduced in order to allow the deletion of elements from the Bloom
+Filters. Suppose that we have a set that changes over time, where
+elements are inserted and deleted. The insertion of elements can be
+easily done using a normal Bloom Filter, hash the element $k$ times
+and set the bits to 1. Unfortunately the delete operation cannot be
+accomplished simply by reversing the process.The resulting positions
+from the hash functions cannot be set to 0, because each position may
+be hashed by some other element from the set.
+
+In a Counting Bloom Filter, each position is a small counter rather
+than a single bit. When an item is inserted the corresponding counters
+are incremented, and when the item is deleted the same counters are
+decremented. We just have to choose sufficiently large counters, in
+order to avoid counter overflow.
+
+\subsubsection{Scalable Bloom Filters}
+\label{sec:scal-bloom-filt}
+
+As we have seen, Bloom Filters provide space-efficient storage of sets
+at the cost of a probability of false positives on membership queries.
+A conservative approach is usually chosen when filters are created
+because in case the number of elements stored surpasses the original
+number that the filter was supposed to hold, the false positive
+probability starts to increase rapidly. That conservative approach
+usually leads to filters orders of magnitude larger than needed and
+consequently space waste. To tackle this issue, Almeida et
+al. \cite{Almeida2007} introduced the concept of Scalable Bloom Filters
+(SBF), a variant of Bloom Filters that can adapt dynamically to the
+number of elements stored while respecting a maximum false positive
+probability which is chosen in the beginning. SBF are a mechanism that
+adapts to growth of sets using a series of classic Bloom Filters of
+increasing sizes and tighter false positive probabilities. When the
+filters get full, a new one with $size = previous\ size*growth\ rate$
+and tighter false positive probability is made. To check for the
+presence of an element, one has to query all filters.
 
 \subsection{Vector Clocks}
 \label{sec:vector_clocks}
+
+Broadly speaking, a distributed system consists in a set of processes
+connected through a network. Each of these processes internal state can only
+change through the occurrence of events. There are 3 kinds of events: message
+sending, message reception and state transition events deriving from the
+normal execution of the process. In a distributed system, processes can only
+communicate using message passing as there is no shared memory. In this
+context and considering the ordering of events in an asynchronous model (since
+no assumptions should be made about timing), several strategies to cope with
+this asynchronicity were devised. One of the most prominent is vector clocks.
+
+In order to better understand how Vector Clocks work, we must first comprehend
+the concept of causality.  Causality is a relation through which we can connect
+two events, a first event (known as the \textit{cause}) and a second one (the
+\textit{effect}).
+
+In the context of Distributed Systems, causality is expressed using the
+\textit{happens-before} relation \cite{Lamport:1978} denoted by the
+$\rightarrow$ symbol. For instance, given 2 events, $x \rightarrow y$, reads
+as $x$ happened-before $y$ and means $y$ is a consequence of
+$x$.
+ \textit{Happens-before} has the following properties over any given event:
+\begin{itemize}
+\item $\forall a,b,c$ if $a \rightarrow b$ and $b\rightarrow c$, then $a
+  \rightarrow c$ (transitivity);
+\item $\forall a, a \nrightarrow a$(irreflexivity)
+\item $\forall a,b$ if $a \rightarrow b$ then $b \nrightarrow a$ (antisymmetry)
+\end{itemize}
+
+Therefore, the \textit{happens-before} relation, is strict partial order over
+sets of events.
+
+Vector Clocks were introduced by Colin Fidge \cite{Fidge} and Friedemann Mattern
+\cite{Mattern} in 1988 and are a practical implementation of the
+\textit{happens-before} concept.
+In this algorithm, each process $P_i$ has a vector of integer values
+$VC_i[1..n]$ where $n$ is the number of processes, maintained by the following
+set of rules:
+\begin{enumerate}
+\item In the beginning, all the positions from the vector are set to 0
+\item Each time the state of a process $P_i$ changes (send, receive or
+  internal event), it must increment
+  the value $VC_i[i]$, i.e, $(VC_i[i] = VC_i[i]+1)$.
+\item Each time a process $P_i$ sends a message, its vector $VC_i$
+  should be enclosed in that message.
+\item When a process $P_i$ receives a message $m$, it must update its
+  vector using the formula: $\forall x:VC_i[x] = max(VC_i[x],m.VC[x])$,
+  where $m.VC$ symbolizes the vector clock attached to $m$.
+\end{enumerate}
+
+Figure \ref{fig:vector_clocks} shows a concrete example of the above
+rules in a distributed system with 3 processes.
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=\textwidth]{images/vector_clocks.pdf}
+  \caption{ Vector Clocks}
+  \label{fig:vector_clocks}
+\end{figure}
+
+Vector Clocks are able to accurately represent the
+causality relation and the partial order it defines. Given any two
+distinct events $x$ and $y$:
+
+\begin{center}
+\begin{math}
+	\forall(x,y):(x\rightarrow y) \Longleftrightarrow (VC_x < VC_y)
+\end{math}
+\end{center}
+Where $VC_x < VC_y$ stands for:
+\begin{center}
+  \begin{math}
+    (\forall k: VC_x[k] \leq VC_y[k] \wedge (\exists k : VC_x[k]< VC_y[k]))
+  \end{math}
+\end{center}
+
+An important property of this mechanism is the result by Charron-Bost
+\cite{charron1991concerning} proving that Vector Clocks are the most
+concise characterization of causality among process events.
 
 %%% Local Variables: 
 %%% mode: latex
