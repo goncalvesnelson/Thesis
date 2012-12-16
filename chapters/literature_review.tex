@@ -5,8 +5,8 @@ This chapter exposes some of the works whose content is relevant to
 the context of this dissertation. Section
 \ref{sec:privacy_pervasive_computing} begins by explaining the concept
 of location privacy in pervasive computing and it's importance. It then follows
-with the presentation of some of the approaches already used in the
-ofield of pervasive computing regarding this topic. Lastly, Section
+with the presentation of some of the approaches already used in the 
+field of pervasive computing regarding this topic. Lastly, Section
 \ref{sec:algorithms_and_data_structures} provides some background to
 the algorithms and classic data structures used in our approach to ensure
 privacy.
@@ -22,8 +22,8 @@ privacy.
 
 Beresford and Stajano ~\cite{1186725} define location privacy as:
 \begin{quotation}
-  ...the ability to prevent other parties to from learning one's
-  current or past location.
+  ``...the ability to prevent other parties to from learning one's
+  current or past location.''
 \end{quotation}
 Their definition implies that a person whose location is being
 monitored must be able to control who has access that information.
@@ -36,16 +36,16 @@ things.
 According Duckham and Kulik~\cite{duckham2006location} location
 privacy is:
 \begin{quotation}
-  a special type of information privacy which concerns the claim
+  ``a special type of information privacy which concerns the claim
   of individuals to determine for themselves when, how, and to what
-  extent location information about them is communicated to others.
+  extent location information about them is communicated to others.''
 \end{quotation}
 Their definition is based upon Westin's~\cite{westin1968privacy}
 definition of information privacy:
 \begin{quotation}
-  the claim of individuals, groups or institutions to determine for
+  ``the claim of individuals, groups or institutions to determine for
   themselves when, how and to what extent information about them is
-  communicated to others.
+  communicated to others.''
 \end{quotation}
 Duckham and Kulik's definition captures several aspects about
 location information and the way it can be shared:
@@ -87,9 +87,9 @@ technologies for determining position, and then use the location and
 other information to provide personalized applications and
 services~\cite{zibuschka2011location}. There are however privacy risks
 that stem from the use of such services.
-PleaseRobMe\footnote{pleaserobme.com} was created to raise awareness
+PleaseRobMe\footnote{www.pleaserobme.com} was created to raise awareness
 for the risks of sharing location information. Combining information
-from FourSquare\footnote{https://foursquare.com/} and
+from FourSquare\footnote{www.foursquare.com} and
 Twitter\footnote{www.twitter.com} it demonstrates how easy it is to
 infer that someone is not at home. Despite the existence of reports
 linking the sharing of location information with the occurrence of
@@ -207,6 +207,7 @@ without it.
   case it becomes compromised it would result in a serious security
   threat.
 \end{itemize}
+
 Their distributed protocol called PRIVÉ supports decentralized query
 anonymization with load balancing and fault tolerance. In PRIVÉ, for a
 user to be considered trustworthy and participate in the network she
@@ -320,55 +321,61 @@ structures.
 In our work, we tested how the usage of stochastic summarizing
 techniques fared as an approach to some privacy preserving scenarios.
 This section briefly explains the algorithms and data structures that
-were used in our approach.
+were used in both the Gate Counting (Chapter~\ref{cha:gate-counting})
+and Causality Tracking (Chapter~\ref{cha:causality-tracking}) scenarios.
 
 \subsection{Hash Sketches}
 \label{sec:hash_sketches}
 
 Hash Sketches are simple probabilistic data structure used to obtain
-the number of distinct elements in both sets and multisets. From now
-on, whenever we mention the capabilities of hash sketches in
-multisets, the same applies for sets. There are several variants of
-this algorithm. Despite being different, all the variants we discuss
-have at least one bit array and use some kind of hash function to map
-elements from the multiset to positions in the aforementioned
-array(s). The main idea is to use an hash function to randomize data
-and create what closely resembles an uniform and independent binary
-data structure. This pragmatism is justified by Knuth
-\cite{knuth1998art}:
+the number of distinct elements in multisets There are several
+variants of Hash Sketches. Despite being different, all the discussed
+variants have at least one bit array and use some kind of
+hash function to map elements from the multiset to positions in the
+bit array(s). The main idea is to use an hash function to
+randomize data and create what closely resembles to an uniform and
+independent binary data structure. This pragmatism is justified by
+Knuth \cite{knuth1998art}:
 \begin{quotation}
-It is theoretically impossible to define a hash
+``It is theoretically impossible to define a hash
 function that creates random data from non-random data in actual
 files. But it is not difficult to produce a pretty good imitation of
-random data.  
+random data.''
 \end{quotation}
 This binary data structure is then used as input to an
-\emph{estimator} function that returns the an \emph{estimation} of
+\emph{estimator} function that returns an \emph{estimation} of the
 number of distinct elements in the multiset, it does not return exact
-results. The estimator works by performing some tests on the hashed
-binary data, compare the results with what probabilistic analysis
-predicts, and then finally infer a plausible value for the number of
-distinct elements.
+results. The estimator performs some tests on the hashed
+binary data comparing the obtained results with the ones that would be
+expectable using probabilistic analysis. Finally, it infers a estimate
+for the number of distinct elements.
 
-In Hash sketches, the same element is always mapped to the same
-position(s) in the binary array(s). That is the reason this algorithm
-is only suitable to estimate the number of distinct elements (which
-is the same as cardinality in sets but not in multisets).
+In Hash Sketches, the same element is always mapped to the same
+position(s) in the binary array(s). That is the reason why this
+algorithm is only suitable to estimate the number of distinct
+elements, i.e. the cardinality of the support set of a multiset. The
+support set is a subset of the multiset with all the distinct elements (no
+repetitions).
 
 Due to their probabilistic nature, Hash Sketches also have a smaller
 memory footprint than the one that would be needed in a deterministic
-approach. They also have the ability to estimate
-the number of different elements incrementally and in a single pass
-over the multiset. This gives them the ability to provide online
-estimates at any time even in dynamic scenarios where there is a
-constant flow of data. 
+approach. Hash Sketches also have the ability to estimate the number
+of different elements incrementally and in a single pass over the
+multiset. This enables them to provide on-the-fly estimates in
+scenarios where there is a constant flow of data.
+
+It is also worth noting that all the ``observables'' i.e. bit
+array(s) used by the Hash Sketches algorithms below, are
+duplicate and order insensitive. This means that, neither the order in
+which elements are inserted, nor the insertion of repeated elements
+affect the output of the estimator functions.
 
 In the Gate Counter Scenario (Chapter \ref{cha:gate-counting}), we
 tested several versions of sketches: LogLog Sketches
 \cite{Durand:2003tc}, HyperLogLog Sketches \cite{Fusy:2007um}, Linear
-Counting Sketches \cite{Whang:1990uh}, Robust In Network Aggregation
+Counting Sketches \cite{Whang:1990uh}, Robust-In Network Aggregation
 Linear Counting Sketches (RIA-LC)
-\cite{Fan:2008wl,YaoChungFanArbeeLPChen:2010to} and Robust In Network
+\cite{Fan:2008wl,YaoChungFanArbeeLPChen:2010to} and Robust In-Network
 Aggregation Dynamic Counting Sketches (RIA-DC)
 \cite{YaoChungFanArbeeLPChen:2010to}.
 
@@ -379,51 +386,59 @@ Counting with Stochastic Averaging (PCSA) algorithm presented in
 \cite{Flajolet:1985wd} since both use several small bit arrays (called
 buckets) instead of a single bit array. This concept was introduced in
 \cite{Flajolet:1985wd} under the name \emph{stochastic averaging} and
-its purpose is to reduce the \emph{variability} of the estimates, thus
+its purpose is to reduce the \emph{variance} of the estimates, thus
 improving their accuracy. The main difference between PCSA and LogLog
 Sketches is that the latter consume a lot less memory at the expense
-of some accuracy. To insert an element in the LogLog Sketch, one has
-to calculate its hash. The first bits of the hash code are used to
-figure in which bucket the element should be inserted into. The rest
-of the bits are used to calculate the position inside that bucket in
-which it should be inserted. Initially all the bits in each bucket are
-set to $0$. The estimate of the number of distinct elements is
-obtained using the average of the several buckets. The name LogLog
-Sketch derives from the fact that each small bit array has size close
-to $log(log(N))$, being $N$ the number of distinct elements. 
+of some accuracy. To create a LogLog sketch, one needs to know the
+number of distinct elements it will hold, or at least an upper bound
+for that number. That number along with the desired accuracy are the
+two design parameters for this algorithm. Having defined those, $m$
+buckets are created and initialized to $0$. Each bucket has a size
+close to $log(log(N_{max}))$ (hence the name LogLog Sketches), being
+$N_{max}$ the maximum number of distinct elements the sketch can hold.
+Given the hash code for element $e$, $hs(e)$ let $\mathfrak{R}_e$
+denote that code without the first $k=log_2(m)$ elements and $\rho(x)$
+a function that returns the index (starting at 1) of the leftmost $1$
+bit in $x$, e.g $\rho(1\ldots)=1,\ \rho(0001\ldots)=4$. To insert an
+element $e$ in the Sketch, the first $k$ bits of the element's hash
+code are used to pick one of the buckets, lets assume it was bucket
+$b_1$. Its content is updated as follows,
+$b_1=max(b_1,\rho(\mathfrak{R}_e))$. The values stored in the various
+buckets are the ones used by the estimator function to provide a
+number for the cardinality of the support set.
 
 \subsubsection{HyperLogLog Sketches}
 \label{sec:hyperloglog-sketches}
 HyperLogLog Sketches \cite{Fusy:2007um} are an improvement over LogLog
-Sketches. In both algorithms, greater accuracy can obtained at the
+Sketches. In both algorithms, greater accuracy can be obtained at the
 cost of bigger space requirements and lower space requisites can be
-bought at the expense of reduced accuracy. However, using the same
-number of bits as LogLog Sketches, HyperLogLog Sketches are able to
+bought at the expense of reducing the accuracy. However, when using the same
+number of bits as in LogLog Sketches, HyperLogLog Sketches is able to
 provide more accurate results. According to the authors, this
 improvement stems from the use of \emph{harmonic means} instead of
 \emph{geometric means} in the estimator function. The key concept
-behind these algorithms is that only $N/2^k$ distinct elements have a
-$\rho$ value equal to $k$, where $N$ is the number of distinct
-elements in the multiset, $x\in\{0,1\}^\infty$ is the hash of an
-element, and $\rho(x)$ denotes the position of the first $1$ bit
-($\rho(1\ldots)=1,\ \rho(0001\ldots)=4$). Figure
-\ref{fig:hyperloglog_sketches} shows the behavior of these algorithms.
-Assuming we have already removed the first bits of each element's hash
-and that they all pointed to the same bucket, insertion works as
-follows:
-\begin{enumerate}
-\item Starting from left to right (it could be done from right to
-  left, as long as we stay coherent), let $i$ be the first
-  index whose bit is set to 1. In case of ``ELEM1'', $i=4$.
-\item Counting on the same direction as the first step and
-  assuming indexes start at $1$, set bucket$[i]=1$. In case of
-  ``ELEM1'', we set bucket$[4]=1$.
-\item Repeat the above steps for all elements.
-\end{enumerate}
+behind both these algorithms is that using a good hash function, it is
+expected that only $N/2^y$ distinct elements have a $\rho$ value equal
+to $y$, where $N$ is the number of distinct elements in the multiset
+(e.g. $\rho(x)=1$ in $50\%$ of the cases, $\rho(x)=2$ in $25\%$ of the
+cases, $\rho(x)=3$ in $12.5\%$ of the cases, \ldots). Figure
+\ref{fig:hyperloglog_sketches} shows the behavior of these algorithms,
+but for ease of representation instead of small bit arrays it uses
+integers to represent the buckets. 
+%Insertion works as follows:
+% \begin{enumerate}
+% \item Starting from left to right (it could be done from right to
+%   left, as long as we stay coherent), let $i$ be the first
+%   index whose bit is set to 1. In case of ``ELEM1'', $i=4$.
+% \item Counting on the same direction as the first step and
+%   assuming indexes start at $1$, set bucket$[i]=1$. In case of
+%   ``ELEM1'', we set bucket$[4]=1$.
+% \item Repeat the above steps for all elements.
+% \end{enumerate}
 \begin{figure}[htb]
   \centering
-  \includegraphics[width=\textwidth]{images/hash_sketch.pdf}
-  \caption{Insertion of an element into a (Hyper)LogLog Sketch}
+  \includegraphics[width=\textwidth]{images/hll_sketches.pdf}
+  \caption{Insertion of elements in a (Hyper)LogLog Sketch}
   \label{fig:hyperloglog_sketches}
 \end{figure}
 
@@ -433,33 +448,33 @@ Linear Counting (LC) Sketches \cite{Whang:1990uh}, on the other hand,
 use a single bit array/sketch. This sketch is initialized with $0$s.
 When an item is to be inserted, its hash value is used to calculate an
 index within the sketch, which is then set to $1$. To calculate the
-estimate of the number of different items, the algorithm has to use
+estimate of the number of different items, the algorithm uses
 the fraction of empty sketch entries. In order to obtain this value,
 it counts the number of empty sketch entries (the number of $0$
 entries in the sketch) and divides it by the total size of the sketch.
 The key concept behind LC Sketches is that for a uniformly distributed
-hash function, it is expected that the fraction of zero bits in the
-sketch is inversely proportional to the number of distinct elements in
+hash function, it is expected for the fraction of zero bits in the
+sketch to be inversely proportional to the number of distinct elements in
 the multiset. LC Sketches' name comes from their linear space
-complexity $O(Nmax)$ (where $Nmax$ is the maximum number of different
-elements the sketch can hold), i.e. their size grows linearly with the
-number of distinct elements they can hold. Compared to (Hyper)LogLog
+complexity $O(N_{max})$ (where $N_{max}$ is the maximum number of different
+elements that the sketch can hold), i.e. their size grows linearly with the
+number of distinct elements that can be hold. Compared to (Hyper)LogLog
 Sketches, LC Sketches' space complexity is a drawback, specially for
 multisets with large numbers of distinct elements. However, LC
 Sketches are easier to implement and also provide better estimates in
 multisets with a small number of distinct elements. 
 
-\subsubsection{Robust In-Network Aggregation Linear Counting Sketches}
+\subsubsection{Robust In-Network Aggregation Linear Counting Sketches
+  and  Robust In-Network Aggregation  Dynamic Counting Sketches}
 \label{sec:robust-netw-linear}
-Both RIA-DC \cite{Fan:2008wl,YaoChungFanArbeeLPChen:2010to} and RIA-LC
-Sketches \cite{YaoChungFanArbeeLPChen:2010to} are based on LC
-Sketches. RIA-LC sketches can be seen as a slightly
-improved/simplified version of Linear Counting Sketches, less prone to
-the overflow problem that occurs when all the bits in the sketch are
-set to $1$. 
+Both Robust In-Network Aggregation Linear Counting Sketches (RIA-LC)
+\cite{Fan:2008wl,YaoChungFanArbeeLPChen:2010to} and Robust In-Network
+Aggregation Dynamic Counting Sketches (RIA-DC)
+\cite{YaoChungFanArbeeLPChen:2010to} are based on LC Sketches. RIA-LC
+sketches can be seen as a slightly improved/simplified version of
+Linear Counting Sketches, less prone to the overflow problem that
+occurs when all the bits in the sketch are set to $1$.
 
-\subsubsection{Robust In-Network Aggregation Dynamic Counting Sketches}
-\label{sec:robust-netw-dynamic}
 One of the major issues with all of the previous algorithms is the
 merge operation. All of them allow the merging of several sketches of
 the same type to obtain an aggregate count of the number of distinct
@@ -471,16 +486,10 @@ $10000$ distinct elements, if we plan on computing their aggregate
 then each sketch must be big enough to hold at least $10200$ elements.
 RIA-DC sketches don't suffer from this issue. They have the ability to
 merge sketches of different sizes. However, this ability comes with a
-price. RIA-DC Sketches assume that there is no overlap of elements
-belonging to different sketches, meaning that if we merge two
+price. RIA-DC Sketches assume that elements belonging to different
+sketches do not overlap, meaning that if we merge two
 different RIA-DC sketches with elements in common, those elements will
 be counted twice in the final aggregate.
-
-It is also worth noting that all the ``observables'' i.e. bit
-array(s)/sketches used by the above algorithms are duplicate and order
-insensitive. This means that neither the order in which elements
-are inserted, nor the insertion of repeated elements affect the
-output of the estimator functions.
 
 \subsection{Bloom Filters}
 \label{sec:bloom_filters}
@@ -488,10 +497,10 @@ output of the estimator functions.
 Bloom Filters (BFs) were created in 1970 \cite{Bloom1970} by Burton
 Howard Bloom. They are a simple and space efficient data structure for
 set representation where membership queries are allowed. Bloom Filters
-allow false positives but do not allow false negatives,i.e, when
+allow false positives but do not allow false negatives, i.e, when
 querying a Bloom Filter about the existence of an element in a given
 set, if the answer is no, then the element is definitely not in the
-set, else if the answer is yes, the element might be in the set.
+set, but if the answer is yes, the element might be in the set.
 
 A Bloom Filter for representing a set of $n$ items $S =
 \{x_1,x_2,x_3,...,x_n\}$ is traditionally implemented using an array
@@ -506,7 +515,7 @@ extreme cases it is possible to have $h_1(x) = h_2(x) = ... = h_k(x)$.
 To prevent this, we use the variant of Bloom Filters presented in
 \cite{Chang04approximatecaches} which partitions the $M$ bits among
 the $k$ hash functions, creating $k$ slices of $m = M/k$ bits. This
-ensures each item added to the filter is always described by $k$ bits.
+ensures that  each item added to the filter is always described by $k$ bits.
 Given a Bloom Filter $BF_S$, checking if an element $z \in BF_S$,
 consists in verifying whether all $h_i(z)$ are set to 1. If they
 aren't, then $z$ is definitely not present on the filter. Otherwise,
