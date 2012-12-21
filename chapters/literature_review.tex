@@ -157,10 +157,7 @@ anonymity as a method to attain location privacy. According to them, a
 subject is considered to be k-anonymous with regard to location
 information, if and only if she is indistinguishable from at least
 $k-1$ other subjects with respect to a set of
-\emph{quasi-identifier}\footnote{Data that by itself does not uniquely
- identify a user but that in association with other
- information might}
-attributes. Bigger values of $k$ correspond to higher degrees of
+\emph{quasi-identifier} attributes. Bigger values of $k$ correspond to higher degrees of
 anonymity. They proposed a middleware architecture and an algorithm
 capable of adjusting location information resolution in spacial and/or
 temporal dimensions in order to comply with a specific
@@ -445,24 +442,36 @@ integers to represent the buckets.
 \subsubsection{Linear Counting Sketches}
 \label{sec:line-count-sketch}
 Linear Counting (LC) Sketches \cite{Whang:1990uh}, on the other hand,
-use a single bit array/sketch. This sketch is initialized with $0$s.
-When an item is to be inserted, its hash value is used to calculate an
-index within the sketch, which is then set to $1$. To calculate the
-estimate of the number of different items, the algorithm uses
-the fraction of empty sketch entries. In order to obtain this value,
-it counts the number of empty sketch entries (the number of $0$
-entries in the sketch) and divides it by the total size of the sketch.
-The key concept behind LC Sketches is that for a uniformly distributed
-hash function, it is expected for the fraction of zero bits in the
-sketch to be inversely proportional to the number of distinct elements in
-the multiset. LC Sketches' name comes from their linear space
-complexity $O(N_{max})$ (where $N_{max}$ is the maximum number of different
-elements that the sketch can hold), i.e. their size grows linearly with the
-number of distinct elements that can be hold. Compared to (Hyper)LogLog
-Sketches, LC Sketches' space complexity is a drawback, specially for
-multisets with large numbers of distinct elements. However, LC
-Sketches are easier to implement and also provide better estimates in
-multisets with a small number of distinct elements. 
+use a single bit array/sketch with size $m$. This sketch is
+initialized with $0$s. When an item $i$ is to be inserted, its hash
+value $h_i$, is used to calculate an index within the sketch
+($mod(h_i,m)$), which is then set to $1$. To calculate the estimate of
+the number of different items, the algorithm uses the fraction of
+empty sketch entries ($V_n$). In order to obtain this value, it counts
+the number of empty sketch entries (the number of $0$ entries in the
+sketch) and divides it by the total size of the sketch. The key
+concept behind LC Sketches is that for a uniformly distributed hash
+function, it is expected for the fraction of zero bits in the sketch
+to be inversely proportional to the number of distinct elements in the
+multiset. LC Sketches' name comes from their linear space complexity
+$O(N_{max})$ (where $N_{max}$ is the maximum number of different
+elements that the sketch can hold), i.e. their size grows linearly
+with the number of distinct elements that can be hold. Compared to
+(Hyper)LogLog Sketches, LC Sketches' space complexity is a drawback,
+specially for multisets with large numbers of distinct elements.
+However, LC Sketches are easier to implement and also provide better
+estimates in multisets with a small number of distinct elements.
+Figure \ref{fig:lc_sketches} shows a LC Sketch with size $m=16$, after
+the insertion of 4 elements, $V_n=0.75$. Notice that ``ELEM4'' is
+inserted in index $i=12$ because that is the remainder of the integer
+division of 44 over 16.
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=\textwidth]{images/lc_sketch.pdf}
+  \caption{Linear Counting Sketch after the insertion of 4 elements}
+  \label{fig:lc_sketches}
+\end{figure}
 
 \subsubsection{Robust In-Network Aggregation Linear Counting Sketches
   and  Robust In-Network Aggregation  Dynamic Counting Sketches}
@@ -471,9 +480,10 @@ Both Robust In-Network Aggregation Linear Counting Sketches (RIA-LC)
 \cite{Fan:2008wl,YaoChungFanArbeeLPChen:2010to} and Robust In-Network
 Aggregation Dynamic Counting Sketches (RIA-DC)
 \cite{YaoChungFanArbeeLPChen:2010to} are based on LC Sketches. RIA-LC
-sketches can be seen as a slightly improved/simplified version of
-Linear Counting Sketches, less prone to the overflow problem that
-occurs when all the bits in the sketch are set to $1$.
+sketches are a slightly improved version of Linear Counting Sketches.
+They are very similar in the way they work, however RIA-LC Sketches
+are less prone to the overflow problem that occurs in LC Sketches when
+all the bits in the sketch are set to $1$.
 
 One of the major issues with all of the previous algorithms is the
 merge operation. All of them allow the merging of several sketches of

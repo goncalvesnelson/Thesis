@@ -1,15 +1,118 @@
+\chapter{Introduction}
+\label{cha:introduction}
+
+Propelled by the increasing usage of web enabled, context and location
+aware mobile devices, context aware services specially location based
+services (LBS) are becoming remarkably popular. The developments seen
+in technologies like GPS, GSM, Wifi and Bluetooth also worked as a
+catalyst in this process. Using these technologies it is possible to
+obtain information about the location of users. This type of
+information can be used both by service providers and users. Service
+providers can process this information to attain a better
+understanding of the users behavior (e.g. by analyzing their movement)
+and improve their current services as well as plans for future
+services and infrastructures. Users, on the other hand, can use
+location data to get personalized information according to their
+location. However, the continuous monitoring, processing and storage
+of location data can create privacy related problems. Location
+information can expose sensitive information about users as it
+constitutes a \emph{quasi-identifier}\footnote{Data that by itself
+  does not uniquely identify a user but that in association with other
+  information might} according to Bettini et
+al.~\cite{bettini2005protecting}. 
+
+Examples of attacks on privacy using
+recorded location data are not hard to find. Using a week-long
+database with GPS traces of Detroit drivers whose names were replaced
+with pseudonyms, Hoh et al.~\cite{hoh2006enhancing} were able to
+determine the location of 85\% of the drivers' homes. Hightower et
+al.'s BeaconPrint algorithm~\cite{hightower2005learning} is able to
+accurately recognize the location of a user using only Wifi and GSM
+information. Researchers have also shown that looking at the historic
+of someone's location data is possible to predict their future
+whereabouts~\cite{krumm2006predestination,froehlich2008route}.
+
+\todo{Melhorar ligação entre o uso de cenários Bluetooth e o contexto.
+Onde falar das motivações que nos levaram a escolher Bluetooth?}
+
+\section{Context}
+\label{sec:context}
+
+As Bluetooth becomes more and more pervasive, there is a growing
+potential to leverage on the possibilities offered by Bluetooth
+scanning as a flexible infrastructure for situated interaction and a
+general purpose platform for massive sensing and actuation in physical
+spaces.
+
+Bluetooth sensing is based on a discovery process through
+which a device can inquire about the presence of other nearby devices.
+If those devices are in \emph{discoverable} mode, they will respond
+with their Bluetooth addresses (48 bit MAC), and possibly additional
+information, such as the device name, the device type (e.g. cellphone
+or computer) and available services.
+
+A Bluetooth scanner is a device that periodically scans nearby
+Bluetooth devices. Each time a device is detected, it registers and
+timestamps that event. Later, this information can be used by external
+services or applications. Multiple Bluetooth scanners spread all over
+a physical space could thus serve as collection points for Bluetooth
+sightings, providing a major tool for observing, recording, modeling
+and analyzing that space, physically, digitally and socially
+\cite{Oneill:2006vq}.
+
+An infrastructure of this nature can be built from the scratch given
+the increasingly smaller cost of the technological equipment required.
+Alternatively, it can be built upon the large number of Bluetooth
+scanners already present in some urban environments. These scanners
+are owned by many entities and they serve very diverse purposes, such
+as proximity marketing, device localization or OBEX-based interaction.
+They could be used, without any additional cost, as nodes in a large
+scale collaborative sensing infrastructure. Each node would still scan
+for its own purposes, but it would also share part of the generated
+data with a central service that would then be able to produce
+aggregate information of mutual interest. Both strategies make the
+creation of this type of infrastructure relatively simple and feasible
+in the short term.
+
+The challenge, however, is how to enable this type of large scale
+sensing without creating an overwhelming privacy threat to the users.
+This dissertation aims to find if stochastic summarizing techniques
+are suitable for this challenge. To assess their viability, we used
+them in two different Bluetooth scanning scenarios.
+
+% There are already several techniques whose purpose is to ensure
+% location privacy in the exchange of information between users and
+% service providers. This dissertation aims to find if stochastic
+% summarizing techniques are suitable as building blocks for privacy
+% preserving systems. To assess their viability, we used them in two
+% different Bluetooth scanning scenarios. 
+
+\section{Structure and Contributions}
+\label{sec:structure}
+
+\subsubsection{Structure}
+\label{sec:structure} This dissertation is organized as follows:
+Chapter \ref{chap:literature_review} presents some of the related work
+in the field of location privacy followed by a brief description of
+some algorithms/data structures used in our privacy preserving
+approaches. Chapters \ref{cha:gate-counting} and
+\ref{cha:causality-tracking} describe both our Bluetooth tracking
+scenarios, Collaborative Gate Counting and Causality Tracking, their
+requirements and the effectiveness of several stochastic summarizing
+techniques in dealing with them. Chapter \ref{cha:conclusion} draws
+some general conclusions about our work and presents some future
+research directions to be followed.
+
+\subsubsection{Contributions}
+\label{sec:contributions}
+As a result of the work developed in the context of this
+dissertation, two full papers were written. The first one
+\cite{gonccalves2011privacy} was published in the OTM 2001 Workshop.
+The second paper \cite{inforum2012} was published in INFORUM 2012
+where it won the prize of best paper in the Mobile and Ubiquitous
+Computing session.
+
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "../thesis"
 %%% End: 
-\chapter{Introduction}
-
-\section{Motivation}
-\label{sec:motivation}
-
-\section{Goals}
-\label{sec:goals}
-
-\section{Structure}
-\label{sec:structure}
-
