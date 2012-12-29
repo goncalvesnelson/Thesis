@@ -1,20 +1,17 @@
 \documentclass[12pt, a4paper, twoside]{book} % book style
 \usepackage[portuges, english]{babel} % hyphenation (english is the default)
 \usepackage[utf8]{inputenc} % allow utf-8 characters
-%\usepackage{lmodern} % use Latin Modern font
-%\usepackage{palatino} % use Palatino font
-\usepackage{charter} % use Bitstream Charter font
 \usepackage[T1]{fontenc} % T1 font encoding
 \usepackage[scaled]{beramono} % Bitstream Vera (used in code listings)
-\usepackage{microtype} % enhanced typography
+\usepackage[babel, tracking, spacing, kerning]{microtype} % enhanced typography
 \usepackage{setspace} % provides \onehalfspacing
 \usepackage{quotchap} % pretty chapter headers
-\usepackage{hyperref} % PDF hyperlinks
+\usepackage[pdfpagelabels]{hyperref} % PDF hyperlinks
 \usepackage[all]{hypcap} % fix hyperref caption problem
 \usepackage{pdfpages} % include pdf pages (for the cover)
 \usepackage{listings} % for the source code
 \usepackage{booktabs} % pretty tables, provides \toprule \midrule \bottomrule
-%\usepackage{graphicx}
+\usepackage{graphicx}
 %\usepackage{asmath}
 %\usepackage{assymb}
 \usepackage{txfonts}% use Arial && Times New Roman
@@ -39,6 +36,7 @@
 
 % set line spacing to 1.5
 \onehalfspacing
+
 % setup hyperref and set pdf metadata
 \hypersetup{
     pdftitle   = {Opportunistic Privacy Preserving Bluetooth Sensing},
@@ -85,7 +83,6 @@
 
 \selectlanguage{english}
 \cleardoublepage
-% Front matter
 
 \newpage
 % Epígrafe
@@ -97,6 +94,7 @@
 {Neil Armstrong}
 
 \cleardoublepage
+% Front matter
 \frontmatter
 \pagestyle{headings}
 \input{ack.tex} % Acknowledgments
@@ -113,7 +111,6 @@
 
 % Main matter
 \mainmatter
-\renewcommand{\chapterheadstartvskip}{\vspace*{-1.0\baselineskip}}
 \input{chapters/introduction.tex} % Introduction
 \input{chapters/literature_review.tex} % Chapter 2
 \input{chapters/gate_counting.tex} % Chapter 3
@@ -125,7 +122,6 @@
 
 % Back matter
 \backmatter
-\renewcommand{\chapterheadstartvskip}{\vspace*{-2.3\baselineskip}}
 \bibliographystyle{plain}
 \bibliography{library}
 \addcontentsline{toc}{chapter}{\bibname}

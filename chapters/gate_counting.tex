@@ -1,11 +1,11 @@
 \chapter{Collaborative Gate Counting}
 \label{cha:gate-counting}
 
-In this chapter, we address one of the most common forms of urban
+In this chapter, we tackle one of the most common forms of urban
 sensing: counting unique visitors across multiple gate counters to
 measure the flow of people across the urban setting. 
 
-\section {Motivation}
+\section {Motivation and System Model}
 \label{sec:motivation}
 
 Bluetooth scanners register the Bluetooth addresses, 48-bit MAC, of
@@ -33,7 +33,7 @@ individual.
 
 Our Gate Counting scenario assumes the existence of a large set
 of heterogeneous and autonomous Bluetooth nodes. We use the terms
-\emph{node} and \emph{scanner} interchangeably throughout this work.
+\emph{node} and \emph{scanner} interchangeably throughout this document.
 Conceptually, a gate is a virtual line across a street, and gate
 counting is the process of counting the number of people crossing that
 line. Each Bluetooth node is modeled as a gate counter that counts the
@@ -294,8 +294,8 @@ techniques that support merging.
 \caption{Size benchmarks}
 \end{figure}
 
-\section{Analysis}
-\label{sec:analysis}
+\section{Evaluation}
+\label{sec:evaluation}
 Using the results from our benchmark\footnote{Our Benchmark was built
   in Python, including the implementation of the several algorithms,
   with the exception of Bloom Filters where we used Jay Baird's
