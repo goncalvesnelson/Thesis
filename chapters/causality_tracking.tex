@@ -60,7 +60,7 @@ steep. She ends up buying the laptop in store $S_4$. To represent this
 behavior we introduce the concept of \emph{mobility traces}. A
 mobility trace is simply the representation of the places visited in the
 order by which they were visited. In this specific case, the mobility
-trace of $P_1$ is $T_{P_1}=\{S_1,S_2,S_3,S_4\}$. Our mechanism
+trace of $P_1$ is $MT_{P_1}=\{S_1,S_2,S_3,S_4\}$. Our mechanism
 \emph{Precedence Filters}, allows the recording of information
 relative to the individual traces of people, in a manner compatible
 with plausible deniability. That information can later be
@@ -252,19 +252,20 @@ happens-before relation~\cite{Lamport:1978}, Precedence Filters can
 only represent partial orders. In this particular case, for each of
 the nodes/locations they can only ``remember'' the last time each
 device was sighted. For instance, given the mobility trace
-$T_{P_1}=\{S_1,S_2,S_1,S_3,S_2,S_4,S_1\}$ where places $S_1$ and $S_2$
+$MT_{P}=\{S_1,S_2,S_1,S_3,S_2,S_4,S_1\}$ where places $S_1$ and $S_2$
 are visited more than once, in the best case scenario PFs can obtain
-$T_{P_1}=\{S_3,S_2,S_4,S_1\}$. This is a consequence of the
-irreflexivity and antisymmetry properties from the happens-before
-relation. However, we can look at this as a feature of Precedence
-Filters, a sort of automatic data degradation. It ensures that the
-record of sightings for any given device has an upper bound equal to
-the number of Bluetooth scanners in the tracking system.
+$CT_{P}=\{S_3,S_2,S_4,S_1\}$, which we will refer as \emph{causality
+ trace}. This is a consequence of the irreflexivity and antisymmetry
+properties from the happens-before relation. However, we can look at
+this as a feature of Precedence Filters, a sort of automatic data
+degradation. It ensures that the record of sightings for any given
+device has an upper bound equal to the number of Bluetooth scanners in
+the tracking system.
 
 The level of privacy offered by Precedence Filters can be further
-customized by adjusting the CFBs' false positive ratio (Equation
+customized by adjusting the CBFs' false positive ratio (Equation
 \ref{eq:false_positive}). The higher the ratio, the greater the
-inaccuracy of the PFs. The occurrence of false positives in the CFBs
+inaccuracy of the PFs. The occurrence of false positives in the CBFs
 results in the appearance of \emph{fictitious transitions}, i.e. the
 causal trace obtained from querying the filters, contains transitions
 which are non-existent in the original trace. 
@@ -273,12 +274,124 @@ Both these properties are what allow individual users to deny the
 legitimacy of the data extracted from the Precedence Filters.
 
 
+\section{Metrics and Data Sets}
+\label{sec:metrics-data-sets}
+
+To assess the performance of Precedence Filters we compare the set of
+transitions obtained from querying the Precedence Filters with the set
+of transitions obtained from the causality traces, which are themselves
+obtained from mobility traces.  For instance, given the mobility trace
+$MT_P=\{S_1,S_2,S_2,S_1,S_3\}$, we calculate its causality trace
+$CT_P=\{S_2,S_1,S_3\}$, according to the happens-before relation (only
+contains last sighting in each place). Then we extract a set of
+transitions from that causality trace,
+$\{(S_2,S_1),(S_2,S_3),(S_1,S_3)\}$. Each transition is a two location
+tuple where the fist location causally precedes the second. In our
+scenario, that means the device was seen in the first location
+before being sighted at the second location. This
+set of transitions is then finally compared a similar set of
+transitions obtained from the PFs.
+
+
+\subsubsection{Metrics}
+
+The Precedence Filters performance is measured according to two
+different metrics. The \emph{individual} metric which measures the
+false probability of affirmations like the following - ``the
+individual $P$ visited location $S_1$ before visiting location
+$L2$''. This is done by calculating the cardinality of the mutually
+exclusive set between the transitions belonging to the causality trace
+($T_{CT}$) and the transitions extracted from the Precedence Filter
+($T_{PF}$), according to Equation \ref{eq:individual_metric}.
+ \begin{equation}
+   \label{eq:individual_metric}
+   \frac{ | (T_{CT} \bigcup T_{PF}) \backslash (T_{CT} \bigcap T_{PF}) | }{|T_{PF}|}
+ \end{equation}
+
+The \emph{global} metric quantifies the relative weight of one transition
+(e.g. $(S_1,S_3)$) against the total number of transitions
+recorded. For each type of transition, its total number of occurrences
+is divided by the sum of total number of occurrences of all
+transitions. By doing so we are able to establish the relative
+importance of each type of transition, i.e. to make affirmations like
+- ``2\% of the transitions are from Restaurant Y to Cafe X''. 
+
+\subsubsection{Real Data set}
+
+To evaluate the PFs' performance we used a real data set with
+information about Bluetooth sightings by static nodes. This data set
+was taken from Leguay et al. work~\cite{leguay2006opportunistic}. To
+collect this information, the authors handed out a set of Bluetooth
+enabled devices called \emph{iMotes} to a group of users who carried
+them in their day-to-day. Additionally, the authors installed
+Bluetooth scanners in several places with the purpose to register the
+sighting of \emph{iMotes}. The dataset contains 18 static nodes and
+9244 distinct device IDs, 6439 of which have been sighted only once
+and were therefore removed. The average size for the mobility traces
+is approximately 3 and the maximum size is 11. Figure
+\ref{fig:dev_sig_real} shows the distribution of total and distinct
+sightings for all scanners. As expected, not all places have the same
+popularity, some are more visited than others, thus the bigger number
+of Bluetooth sightings.
+
+\begin{figure}[htb]
+\subfigure[Real data set]{
+  \label{fig:dev_sig_real} \includegraphics[scale=0.33]{images/rTotalDistinctSightings.pdf}
+} \subfigure[Synthetic data set]{
+ \label{fig:dev_sig_synthetic}  \includegraphics[scale=0.33]{images/sTotalDistinctSightings.pdf}
+}
+\caption{Number of total and distinct device sightings across the scanners}
+\label{fig:deviceSightings}
+\end{figure}
+
+\subsubsection{Synthetic Data Set}
+\label{sec:simulator}
+Still in the context of evaluating the PF's performance, we built a
+synthetic trace generator modeled after the real data set's
+statistical distribution for the total number of sightings per place,
+i.e. negative exponential distribution with $\lambda =
+1132.44^{-1}$. Our motivation came from the need to simulate scenarios
+with arbitrary number of locations and users. Our trace generator
+allows us to choose the number of places, of users and the maximum
+trace length to simulate. The real data set's mobility traces average
+size is quite small. Figure \ref{fig:dev_sig_synthetic} shows the
+synthetic distribution obtained with parameters similar to the ones
+from the real data set. As expected the results are very similar but not a
+perfect match, the curve from the synthetic data set is much smoother,
+it does not suffer from the ``noise'' inherent to raw real data.
+
+
 \section{Evaluation}
 \label{sec:ct-evaluation}
 
-\subsection{Simulator}
-\label{sec:simulator}
+Looking at Figure \todo{Resultado dataset} we can check that
+precedence filters behave as expected. Increasing the false positive
+probability of the Counting Bloom Filters leads to increasing
+inaccuracy as well. This is true for both the individual and 
+global metrics. 
 
+\begin{figure}[htb]
+\subfigure[Real data set]{
+  \label{fig:dev_sig_real} \includegraphics[scale=0.33]{images/rTotalDistinctSightings.pdf}
+} \subfigure[Synthetic data set]{
+ \label{fig:dev_sig_synthetic}  \includegraphics[scale=0.33]{images/sTotalDistinctSightings.pdf}
+}
+\caption{Number of total and distinct device sightings across the scanners}
+\label{fig:deviceSightings}
+\end{figure}
+
+The inaccuracy is manifested via the occurrence of fake (PF only)
+transitions, i.e. \emph{fictitious transitions}. As the false
+probability increases, so does the percentage of fake
+transitions. This easily explainable. In Bloom Filters, false
+positives denote elements wrongfully considered as belonging to the
+set. Given that in PFs, Bloom Filters are used to record device
+sightings, false positives map to fake device sightings which in turn
+give origin to fictitious transitions.
+
+In Figure\todo{referencia dataset real}, for high false positive
+probabilities ($\gtrsim$ 0.6), the global inaccuracy (dashed line) of our
+mechanism is below the individual inaccuracy (solid line). This 
 
 \section{Synopsis}
 \label{sec:ct-synopsis}
