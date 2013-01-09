@@ -58,6 +58,7 @@ auto/*
 .elc
 auto-save-list
 tramp
+chapters/auto/*
 .\#*
 
 # Org-mode
