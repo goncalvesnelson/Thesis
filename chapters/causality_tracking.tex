@@ -3,7 +3,7 @@
 This chapter, addresses the use of Bluetooth sightings as a way to
 acquire knowledge about the movement patterns of people. To do so, we
 propose a new technique with adjustable accuracy capable of
-representing the causality relation between visited places. 
+representing the causality relation between visited places.
 
 \section{Motivation and System Model}
 \label{sec:ct-motivation}
@@ -38,7 +38,7 @@ of heterogeneous and autonomous nodes that collaborate in the
 tracking process of Bluetooth devices. These nodes may have access to
 various types of information about the devices: their MAC address, the
 timestamp of the sighting, the type of Bluetooth protocols supported
-by the devices, among others. 
+by the devices, among others.
 
 Similarly to Gate Counting scenario in Chapter
 \ref{cha:gate-counting}, there is the possibility of using preexisting
@@ -72,7 +72,7 @@ reputation/popularity.
 A common strategy that seeks to strengthen privacy is the restriction
 of captured data to just the essential. In our specific case, the goal
 is the detection of movement patterns between nodes. As such, the
-ability to detect the same device on different nodes is paramount. To
+ability to detect the same device on different nodes is fundamental. To
 minimize the amount of information collected, we can ignore
 information such as the duration of the sightings, the timestamp in which
 they occurred, the device name, supported Bluetooth protocols,
@@ -81,7 +81,7 @@ among others. We just need the device's MAC address.
 Whenever a device is sensed, the sighting node records that event
 locally. This information is then used in the computation of device
 transitions between the system's multiple nodes. The place where that
-computation takes place depends on the system's architecture. In a
+computation occurs depends on the system's architecture. In a
 centralized system, the computation has to be done in the server since
 only it has enough information to do so. Each node only shares its
 local information with the server. On the other hand, with a
@@ -97,7 +97,7 @@ some of the nodes fail. Compared to the centralized version, the
 decentralized model also has greater availability, result of the
 information redundancy. However, as a consequence of the exchange of
 information between all the nodes, the decentralized scenario has
-a bigger burden on the network when compared to the centralized one. 
+a bigger burden on the network when compared to the centralized one.
 
 
 In order to achieve the goal we set ourselves and taking into account
@@ -120,8 +120,8 @@ following set of assumptions:
   exchange of information between any two nodes is faster than the
   time it takes for a person to move between them. This ensures that
   the order in which the sightings are recorded is correct, i.e, when
-  a person goes from place $A$ to place $B$, node $B$ must already
-  have the information that she was in $A$. 
+  a person goes from node $A$ to node $B$, node $B$ must already
+  have the information that she was in $A$.
 \end{itemize}
 
 \subsection{Objectives}
@@ -155,7 +155,7 @@ By applying some of the previously mentioned (Subsection
 the mobility sensing scenario, Bluetooth scanners can be treated as
 processes and device sightings as state transition events. Precedence
 Filters are based upon this idea and provide accurate mobility
-information data at a macroscopic level without neglecting individual
+information at a macroscopic level without neglecting individual
 privacy.  Precedence Filters can be seen as a vector clock
 \cite{Fidge,Mattern} implementation whose difference is the use of
 Counting Bloom Filters~\cite{Fan98summarycache:,Mitzenmacher:2002:CBF:581876.581878} (one for each node in the system) by the PFs
@@ -165,7 +165,7 @@ In the decentralized model each Bluetooth node has its own PF and the
 nodes communicate with each other upon sighting events in order to
 keep their filters updated. On the other hand, in the centralized
 approach, each node possesses a simple CBF, whose updates can only be
-made through communication with the centralized server. In turn, the 
+made through communication with the centralized server. In turn, the
 centralized server maintains an up to date copy of each node's CBF,
 i.e. a Precedence Filter.
 
@@ -220,14 +220,14 @@ $PF_n$ is updated according to the following set of rules:
   other nodes, the current node ``dominates'' them in the operation
   that returns the causality between the visited places. In other
   words, it is the key to obtaining the order in which the places were
-  visited. 
+  visited.
 \end{enumerate}
 
 This set of rules allows the precedence filters to record information
 about the precedence of the locals visited by a device. Given a set of
 indices $I_d$ for device $d$ and any pair of scanners $x$ and $y$, we
 say that the sighting of $d$ in $x$ precedes the one in $y$, $x
-\leadsto y$ if: 
+\leadsto y$ if:
 
 \begin{center}
 \begin{math}
@@ -242,7 +242,7 @@ Where $PF_x[I_d] < PF_y[I_d]$ stands for:
 
 \end{center}
 It is easy to see the similarities with the vector clock description
-from Subsection \ref{sec:vector_clocks}. 
+from Subsection \ref{sec:vector_clocks}.
 
 Mobility traces, used in our model to describe the behavior of
 individuals, characterize a total order between the places
@@ -252,7 +252,7 @@ happens-before relation~\cite{Lamport:1978}, Precedence Filters can
 only represent partial orders. In this particular case, for each of
 the nodes/locations they can only ``remember'' the last time each
 device was sighted. For instance, given the mobility trace
-$MT_{P}=\{S_1,S_2,S_1,S_3,S_2,S_4,S_1\}$ where places $S_1$ and $S_2$
+$MT_{P}=\{S_1,S_2,S_1,S_3,S_2,S_4,S_1\}$ where scanners $S_1$ and $S_2$
 are visited more than once, in the best case scenario PFs can obtain
 $CT_{P}=\{S_3,S_2,S_4,S_1\}$, which we will refer as \emph{causality
  trace}. This is a consequence of the irreflexivity and antisymmetry
@@ -268,7 +268,7 @@ customized by adjusting the CBFs' false positive ratio (Equation
 inaccuracy of the PFs. The occurrence of false positives in the CBFs
 results in the appearance of \emph{fictitious transitions}, i.e. the
 causal trace obtained from querying the filters, contains transitions
-which are non-existent in the original trace. 
+which are non-existent in the original trace.
 
 Both these properties are what allow individual users to deny the
 legitimacy of the data extracted from the Precedence Filters.
@@ -296,10 +296,12 @@ transitions obtained from the PFs.
 \subsubsection{Metrics}
 
 The Precedence Filters performance is measured according to two
-different metrics. The \emph{individual} metric which measures the
+different metrics.
+
+The \emph{individual} metric which measures the
 false probability of affirmations like the following - ``the
 individual $P$ visited location $S_1$ before visiting location
-$L2$''. This is done by calculating the cardinality of the mutually
+$S_2$''. This is done by calculating the cardinality of the mutually
 exclusive set between the transitions belonging to the causality trace
 ($T_{CT}$) and the transitions extracted from the Precedence Filter
 ($T_{PF}$), according to Equation \ref{eq:individual_metric}.
@@ -308,13 +310,14 @@ exclusive set between the transitions belonging to the causality trace
    \frac{ | (T_{CT} \bigcup T_{PF}) \backslash (T_{CT} \bigcap T_{PF}) | }{|T_{PF}|}
  \end{equation}
 
-The \emph{global} metric quantifies the relative weight of one transition
-(e.g. $(S_1,S_3)$) against the total number of transitions
-recorded. For each type of transition, its total number of occurrences
-is divided by the sum of total number of occurrences of all
-transitions. By doing so we are able to establish the relative
-importance of each type of transition, i.e. to make affirmations like
-- ``2\% of the transitions are from Restaurant Y to Cafe X''. 
+ The \emph{global} metric quantifies the relative weight of
+ one transition (e.g. $(S_1,S_3)$) against the total number of
+ transitions recorded. For each type of transition, its total number
+ of occurrences is divided by the sum of total number of occurrences
+ of all transitions. By doing so we are able to establish the relative
+ importance of each type of transition, i.e. to make affirmations like
+ - ``2\% of the transitions are from Restaurant Y to Cafe X''.
+ \todo{Arranjar Fórmula para métrica global}
 
 \subsubsection{Real Data set}
 
@@ -324,19 +327,19 @@ was taken from Leguay et al. work~\cite{leguay2006opportunistic}. To
 collect this information, the authors handed out a set of Bluetooth
 enabled devices called \emph{iMotes} to a group of users who carried
 them in their day-to-day. Additionally, the authors installed
-Bluetooth scanners in several places with the purpose to register the
-sighting of \emph{iMotes}. The dataset contains 18 static nodes and
+Bluetooth scanners in several places with the purpose of registering the
+sightings of \emph{iMotes}. The dataset contains 18 static nodes and
 9244 distinct device IDs, 6439 of which have been sighted only once
-and were therefore removed. The average size for the mobility traces
-is approximately 3 and the maximum size is 11. Figure
-\ref{fig:dev_sig_real} shows the distribution of total and distinct
-sightings for all scanners. As expected, not all places have the same
-popularity, some are more visited than others, thus the bigger number
-of Bluetooth sightings.
+and were therefore removed. This leaves us with 2805 devices, whose
+average mobility trace size is approximately 4 and maximum size is
+11. Figure \ref{fig:dev_sig_real} shows the distribution of total and
+distinct sightings for all scanners. As expected, not all places have
+the same popularity, some are more visited than others, thus the
+bigger number of Bluetooth sightings.
 
 \begin{figure}[htb]
 \subfigure[Real data set]{
-  \label{fig:dev_sig_real} \includegraphics[scale=0.33]{images/rTotalDistinctSightings.pdf}
+\label{fig:dev_sig_real} \includegraphics[scale=0.33]{images/rTotalDistinctSightings.pdf}
 } \subfigure[Synthetic data set]{
  \label{fig:dev_sig_synthetic}  \includegraphics[scale=0.33]{images/sTotalDistinctSightings.pdf}
 }
@@ -346,39 +349,146 @@ of Bluetooth sightings.
 
 \subsubsection{Synthetic Data Set}
 \label{sec:simulator}
-Still in the context of evaluating the PF's performance, we built a
-synthetic trace generator modeled after the real data set's
-statistical distribution for the total number of sightings per place,
-i.e. negative exponential distribution with $\lambda =
-1132.44^{-1}$. Our motivation came from the need to simulate scenarios
-with arbitrary number of locations and users. Our trace generator
-allows us to choose the number of places, of users and the maximum
-trace length to simulate. The real data set's mobility traces average
-size is quite small. Figure \ref{fig:dev_sig_synthetic} shows the
-synthetic distribution obtained with parameters similar to the ones
-from the real data set. As expected the results are very similar but not a
-perfect match, the curve from the synthetic data set is much smoother,
-it does not suffer from the ``noise'' inherent to raw real data.
 
+Still in the context of evaluating the PF's performance, we built a
+synthetic trace generator. Our motivation came from the need to
+simulate scenarios with arbitrary number of locations and users.
+
+In a first approach, we tried duplicating
+the statistic distribution of the real data set using a negative
+exponential distribution. This would have allowed us to choose an
+arbitrary number of sensors, users and trace length. However, after
+evaluation with Pearson's Chi-Square test, it turned out to be a bad
+fitting. \todo{Dizer que deve ser uma distribuição entre exponencial e
+powerlaw ou então uma distribuição hibrida??}
+
+On a second approach,  it was decided to use the
+same number of sensors as the real data set, i.e. 18. This allowed us
+to simulate the popularity of each sensor/place using the number of
+sightings from the real data set as weights. The larger the number of
+sightings at a sensor, the bigger its weight is, and the more likely
+it is to be chosen. Each node is defined by two parameters, unique
+sightings and total sightings. We only made use of the latter. This
+allowed the creation of a simpler and less error prone simulator,
+capable of producing as many users as we want, as well as mobility
+traces with arbitrary length. The downside of not using the unique
+number of sightings is that we are assuming that even though places
+have different weights, they are the same for everyone, i.e. everyone
+has the same probability of choosing a given place, everyone is an
+``average'' person.
+
+Figure \ref{fig:dev_sig_synthetic} shows the synthetic distribution
+obtained using the approach mentioned above.  As expected the results
+are very similar but not a perfect match. There is a
+correlation between the number of total and unique sightings which
+stems from the use of the ``average'' person. Also, the curve from the
+synthetic data set is smoother, it does not suffer from the
+``noise'' inherent to raw real data.
 
 \section{Evaluation}
 \label{sec:ct-evaluation}
 
-Looking at Figure \todo{Resultado dataset} we can check that
-precedence filters behave as expected. Increasing the false positive
-probability of the Counting Bloom Filters leads to increasing
-inaccuracy as well. This is true for both the individual and 
-global metrics. 
+Using the metrics and data sets previously mentioned we tested the
+Precedence Filter's inaccuracy across several scenarios where we
+varied both the number of devices and the length of the mobility
+traces. Furthermore, each of those scenarios was tested with multiple
+different settings for the Counting Bloom Filter's maximum false
+positive probability (see Equation \ref{eq:false_positive}).
+
+The inaccuracy is manifested via the occurrence of fake (PF only)
+transitions, i.e. \emph{fictitious transitions}. As the false
+probability increases, so does the percentage of fake
+transitions.  This easily explainable. In Bloom Filters, false
+positives denote elements wrongfully considered as belonging to the
+set.  Given that in PFs, Bloom Filters are used to record device
+sightings, false positives map to fake device sightings which in turn
+give origin to fictitious transitions.
+
+As previously explained, both data sets use 18 scanning nodes, what
+differs is the number of devices and the length of the mobility
+traces. To describe the parameters of each scenario, the following
+notation is used in the captions: Synthetic/Real-[\emph{number of
+  devices}]-[\emph{maximum trace length}]-[\emph{average trace
+  length}]
 
 \begin{figure}[htb]
-\subfigure[Real data set]{
-  \label{fig:dev_sig_real} \includegraphics[scale=0.33]{images/rTotalDistinctSightings.pdf}
-} \subfigure[Synthetic data set]{
- \label{fig:dev_sig_synthetic}  \includegraphics[scale=0.33]{images/sTotalDistinctSightings.pdf}
+\centering
+ \subfigure[Synthetic-2805-11-4]{
+ \label{fig:s_2805_11_4}  \includegraphics[width=0.33\linewidth]{images/s18x2805x11x4.pdf}
+}\hspace*{-0.7em}
+\subfigure[Real-2805-11-4]{
+  \label{fig:r_2805_11_4} \includegraphics[width=0.33\linewidth]{images/r18x2805x11x4.pdf}
 }
-\caption{Number of total and distinct device sightings across the scanners}
-\label{fig:deviceSightings}
+\caption{Comparison between real and synthetic data set, with same parameters}
+\label{fig:perf_results_real_sim}
 \end{figure}
+
+
+Figure \ref{fig:perf_results_real_sim} shows the comparison between a
+synthetic data set and the real data set. This synthetic data set will
+serve as the baseline in all tests because it simulates both the number
+of devices and trace length found in the real data set. When comparing
+both graphs, we see that the global inaccuracy is bigger in the real
+data set (Figure \ref{fig:r_2805_11_4}). This is due to the noise
+existent
+inaccuracy is slightly
+
+
+
+
+several scenarios chosen to test Precedence Filters.
+Looking at
+Figure \ref{fig:r_2805_11_4} we can check that precedence filters
+behavior regarding the real data set. As expected, increasing the
+false positive probability of the Counting Bloom Filters leads to
+increasing inaccuracy as well. This is true for both the individual
+and global metrics.
+
+\begin{figure}[htb]
+\subfigure[Synthetic-2805-11-4]{
+\label{fig:s_2805_11_4_1}  \includegraphics[width=0.33\linewidth]{images/s18x2805x11x4.pdf}
+}\hspace*{-0.7em}
+\subfigure[Synthetic-10000-11-4]{
+ \label{fig:_10000_11_4}  \includegraphics[width=0.33\linewidth]{images/s18x10000x11x4.pdf}
+}\hspace*{-0.7em}
+\subfigure[Synthetic-100000-11-4]{
+\label{fig:s_100000_11_4}  \includegraphics[width=0.33\linewidth]{images/s18x100000x11x4.pdf}
+}
+\caption{Synthetic data sets with increasing number of devices}
+\label{fig:perf_results_sim_device_number}
+\end{figure}
+
+
+\begin{figure}[htb]
+\subfigure[Synthetic-2805-11-4]{
+\label{fig:s_2805_11_4}  \includegraphics[width=0.33\linewidth]{images/s18x2805x11x4.pdf}
+}\hspace*{-0.7em}
+\subfigure[Synthetic-2805-50-16]{
+ \label{fig:_2805_50_16}  \includegraphics[width=0.33\linewidth]{images/s18x2805x50x16.pdf}
+}\hspace*{-0.7em}
+\subfigure[Synthetic-2805-100-30]{
+\label{fig:s_2805_100_30}  \includegraphics[width=0.33\linewidth]{images/s18x2805x100x30.pdf}
+}
+\caption{Synthetic data sets with increasing trace sizes}
+\label{fig:perf_results_sim_trace_size}
+\end{figure}
+
+
+\begin{figure}[htb]
+\subfigure[Synthetic-2805-11-4]{
+\label{fig:s_2805_11_4}  \includegraphics[width=0.33\linewidth]{images/s18x2805x11x4.pdf}
+}\hspace*{-0.7em}
+\subfigure[Synthetic-100000-100-30]{
+ \label{fig:_2805_50_13}  \includegraphics[width=0.33\linewidth]{images/s18x100000x100x30.pdf}
+}\hspace*{-0.7em}
+\subfigure[Synthetic-1000000-1000-30]{
+\label{fig:s_2805_100_30}  \includegraphics[width=0.33\linewidth]{images/s18x2805x100x30.pdf}
+}
+\caption{Synthetic data sets with increasing number of devices and
+  trace sizes}
+\label{fig:perf_results_sim_devices_traces}
+\end{figure}
+
 
 The inaccuracy is manifested via the occurrence of fake (PF only)
 transitions, i.e. \emph{fictitious transitions}. As the false
@@ -391,12 +501,30 @@ give origin to fictitious transitions.
 
 In Figure\todo{referencia dataset real}, for high false positive
 probabilities ($\gtrsim$ 0.6), the global inaccuracy (dashed line) of our
-mechanism is below the individual inaccuracy (solid line). This 
+mechanism is below the individual inaccuracy (solid line). This
 
-\section{Synopsis}
-\label{sec:ct-synopsis}
+\section{Summary}
+\label{sec:ct-summary}
 
-%%% Local Variables: 
+Information about the flows of people at a macroscopic level can be used as
+a decision support tool in several scenarios as it allows, to a
+certain level, the understanding of people's behavior as a whole.  It
+is therefore a very useful type of information.  However, to acquire
+this type of macroscopic  information, one must collect individual
+information (which in terms of privacy can be dangerous) about each
+person. In light of these facts, we introduced and benchmarked an new
+technique called \emph{Precedence Filters} which provides accurate
+information at a macroscopic level without risking the individual
+privacy of each user. It accomplishes this by ensuring that the
+information regarding individuals can be plausibly denied.
+
+Being based upon Vector Clocks and Counting Bloom Filters, this
+technique is a compelling argument in proving that stochastic
+summarizing techniques can be a viable building tool for privacy
+preserving scenarios.
+
+
+%%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../thesis"
-%%% End: 
+%%% End:

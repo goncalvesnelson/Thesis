@@ -1,11 +1,73 @@
 \chapter{Conclusion}
 \label{cha:conclusion}
 
-However, the fact we tested the feasibility of stochastic summarizing
-techniques in Bluetooth scenarios does not mean that these techniques
-can't be applied in other kinds of scenarios. 
+In this dissertation, we presented two Bluetooth tracking scenarios
+where the use of stochastic summarizing techniques ensures the privacy
+of the users.
 
-%%% Local Variables: 
+In the first scenario, we explored the use of both Hash Sketches and
+Bloom Filters as privacy preserving solutions for gate counting
+scenarios.  It was shown that, as a result of their ability to ignore
+repeated sightings and to merge different counters, these techniques
+are able to provide accurate values for the number of unique sightings
+across one or several gate counters.  Moreover, we analyzed the
+performance of each technique regarding their size, accuracy and
+aggregation capabilities and had a little discussion about some gate
+counting scenarios where each technique might be a good
+fit. Altogether, these techniques prove to be a good solution for gate
+counting scenarios, preserving the privacy of the users (no need to
+store unique identifiers). All while being much more efficient (one
+order of magnitude in some cases) in terms of space than the naive
+approach (plain storage of MAC addresses).
+
+
+For the second scenario we introduced a new technique, Precedence
+Filters. This technique allowed us to gather accurate information
+about the visiting patterns of groups of users all while ensuring that
+the information they keep about individuals has a level of uncertainty
+compatible with plausible deniability.  This affirmation is confirmed
+by the results obtained from our tests as they show that depending on
+the number of users and places visited (trace size) it is possible to
+have individual information uncertainty of around $50\%$ while
+maintaining a good enough accuracy $  <15\%$ for aggregate information
+regarding the visiting patterns all users as a whole.
+
+
+Even though both our scenarios are Bluetooth based, it must be noted
+that the algorithms and data structures presented in this dissertation
+can also be applied in other scenarios with different tracking
+technologies. These Bluetooth scenarios can be seen simply as ``proofs of
+concept'', which demonstrate that stochastic summarizing techniques are
+suitable for large scale sensing scenarios where privacy is paramount
+and must be preserved.
+
+
+\subsubsection{Future Work}
+\label{sec:future-work}
+
+Concerning Precedence Filters, there are two main issues that should be
+addressed.
+
+The first is related to the assumption stating there are
+no communication failures in the system. This is a strong a requirement,
+hard to fulfill specially in large scale distributed scenarios.  In
+order to loosen our requirements, we could implement a new benchmark which is
+able to test the occurrence of network partitions.  This would allow
+us to test how Precedence Filters cope with such scenarios. Given that
+PFs are based upon Vector Clocks, it should be possible to leverage
+their capabilities to detect the occurrence of conflicts (deriving
+from the partition) and then the simplest solution would be to discard
+all the related information.
+
+The other issue pertains the employed data sets. All the test we ran were
+based upon a single data set, so it would be useful to test PFs using
+other data sets taken real world scenarios. Also, it would helpful to
+find a statistical distribution that fits the data set we already
+have, thus allowing the synthetic creation of scenarios with an
+arbitrary number of scanning nodes.
+
+
+%%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../thesis"
-%%% End: 
+%%% End:

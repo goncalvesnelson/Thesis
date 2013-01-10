@@ -8,7 +8,7 @@ in technologies like GPS, GSM, Wifi and Bluetooth also worked as a
 catalyst in this process. Using these technologies it is possible to
 obtain information about the location of users. This type of
 information can be used both by service providers and users. Service
-providers can process this information to attain a better
+providers can process this information to obtain a better
 understanding of the users behavior (e.g. by analyzing their movement)
 and improve their current services as well as plans for future
 services and infrastructures. Users, on the other hand, can use
@@ -19,26 +19,49 @@ information can expose sensitive information about users as it
 constitutes a \emph{quasi-identifier}\footnote{Data that by itself
   does not uniquely identify a user but that in association with other
   information might} according to Bettini et
-al.~\cite{bettini2005protecting}. 
+al.~\cite{bettini2005protecting}.
 
-Examples of attacks on privacy using
-recorded location data are not hard to find. Using a week-long
-database with GPS traces of Detroit drivers whose names were replaced
-with pseudonyms, Hoh et al.~\cite{hoh2006enhancing} were able to
-determine the location of 85\% of the drivers' homes. Hightower et
-al.'s BeaconPrint algorithm~\cite{hightower2005learning} is able to
-accurately recognize the location of a user using only Wifi and GSM
+Examples of attacks on privacy using recorded location data are not
+hard to find. Using a week-long database with GPS traces of Detroit
+drivers whose names were replaced with pseudonyms, Hoh et
+al.~\cite{hoh2006enhancing} were able to determine the location of
+85\% of the drivers' homes. Hightower et al.'s BeaconPrint
+algorithm~\cite{hightower2005learning} is able to accurately recognize
+the location of a user using only Wifi and GSM
 information. Researchers have also shown that looking at the historic
 of someone's location data is possible to predict their future
 whereabouts~\cite{krumm2006predestination,froehlich2008route}.
 
-% In this dissertation we talk about two scenarios based upon Bluetooth
-% tracking. The reasons for that was chosen as the tracking technology 
-\todo{Melhorar ligação entre o uso de cenários Bluetooth e o contexto.
-Onde falar das motivações que nos levaram a escolher Bluetooth?}
+While location based information is very useful, the fact that it
+can be used to attack the privacy of the users might be a decisive
+factor in the popularity and sustainability of services supported by
+this type of information.  The solution to this problem consists in
+the use of privacy preserving approaches capable of ensuring both the
+quality of the service and the privacy of its users.
+Stochastic summarizing techniques consist of non deterministic
+techniques capable of \todo{definir tecnicas de
+  sumarização estocasticas}
 
-\section{Context}
-\label{sec:context}
+This dissertation aims to find if stochastic summarizing techniques
+are suitable as privacy preserving techniques regarding location
+data in large scale scenarios. As a proof of concept, we present two
+Bluetooth based scenarios, where we make use of these techniques
+to ensure the privacy of the users while trying to comply with the
+scenarios' requirements.
+
+Bluetooth technology is a relatively easy and inexpensive way to track
+large groups of people. Unlike technologies like GPS, Bluetooth also
+works well in both indoors and outdoors scenarios. This allows the
+tracking of individuals both inside and outside buildings allowing for
+more robust tracking solutions.  Also, Bluetooth has a limited
+detection range (typically between 10 to 100 meters depending on the
+number of obstacles) which makes the differentiation between nearby
+possible, thus enabling accurate tracking results. Furthermore,
+Bluetooth tracking is a passive tracking process, i.e, it does not
+require users to change their behavior. On the other hand, GPS
+positions are computed in the mobile device and have to be handed to
+the tracking entity.  All these properties make Bluetooth an arguably
+good choice in which to base our tracking scenarios.
 
 As Bluetooth becomes more and more pervasive, there is a growing
 potential to leverage on the possibilities offered by Bluetooth
@@ -78,16 +101,13 @@ in the short term.
 
 The challenge, however, is how to enable this type of large scale
 sensing without creating an overwhelming privacy threat to the users.
-This dissertation aims to find if stochastic summarizing techniques
-are suitable for this challenge. To assess their viability, we used
-them in two different Bluetooth scanning scenarios.
 
 % There are already several techniques whose purpose is to ensure
 % location privacy in the exchange of information between users and
 % service providers. This dissertation aims to find if stochastic
 % summarizing techniques are suitable as building blocks for privacy
 % preserving systems. To assess their viability, we used them in two
-% different Bluetooth scanning scenarios. 
+% different Bluetooth scanning scenarios.
 
 \section{Structure and Contributions}
 \label{sec:structure}
@@ -107,14 +127,14 @@ research directions to be followed.
 
 \subsubsection{Contributions}
 \label{sec:contributions}
-As a result of the work developed in the context of this
-dissertation, two full papers were written. The first one
-\cite{gonccalves2011privacy} was published in the OTM 2001 Workshop.
+As a result of the work developed in the context of this dissertation,
+two full papers were written. The first one
+\cite{gonccalves2011privacy} was published in the OTM 2011 Workshop.
 The second paper \cite{inforum2012} was published in INFORUM 2012
-where it won the prize for best paper in the Mobile and Ubiquitous
-Computing session.
+where it was awarded the prize for best paper in the Mobile and
+Ubiquitous Computing session.
 
-%%% Local Variables: 
+%%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../thesis"
-%%% End: 
+%%% End:

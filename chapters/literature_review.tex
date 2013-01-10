@@ -5,20 +5,23 @@ This chapter exposes some of the works whose content is relevant to
 the context of this dissertation. Section
 \ref{sec:privacy_pervasive_computing} begins by explaining the concept
 of location privacy in pervasive computing and it's importance. It then follows
-with the presentation of some of the approaches already used in the 
+with the presentation of some of the approaches already used in the
 field of pervasive computing regarding this topic. Lastly, Section
 \ref{sec:algorithms_and_data_structures} provides some background to
 the algorithms and classic data structures used in our approach to ensure
 privacy.
+
 \section{Location Privacy in Pervasive Computing}
 \label{sec:privacy_pervasive_computing}
 
-\subsection{Definition of Location Privacy}
-\label{sec:definition_privacy}
 As location based services become more popular and compelling, there
 is an increasing temptation to give away location data. However, along
-with this temptation comes an increasing concern about location
-privacy.
+with this enticement comes an increasing concern about location
+privacy. Before going into any further details, it is important to
+correctly understand what location privacy is.
+
+\subsection{Definition of Location Privacy}
+\label{sec:definition_privacy}
 
 Beresford and Stajano ~\cite{1186725} define location privacy as:
 \begin{quotation}
@@ -56,7 +59,7 @@ location information and the way it can be shared:
   location.
 \item How: A user might be comfortable with manual location requests
   from her friends, however she may not want to have her friends
-  alerted automatically when she enters a casino or a bar.  
+  alerted automatically when she enters a casino or a bar.
 \item Extent: A user might prefer to have her location reported as an
   ambiguous region rather than as a precise point.
 \end{itemize}
@@ -113,7 +116,7 @@ large scale like we see today is relatively new. As a consequence the
 effects on user privacy are not fully understood
 yet \cite{Terrovitis:2011:PPD:2031331.2031334}.
 
-According to Duckham and Kulik survey in \cite{duckham2006location},
+According to Duckham and Kulik's survey in \cite{duckham2006location},
 there are four commonly used methods for ensuring location privacy:
 \begin{itemize}
 \item Regulatory strategies: comprised by government rules on the use
@@ -179,23 +182,24 @@ Furthermore, they created an efficient message perturbation engine
 capable of performing the location anonymization of users' requests.
 This is accomplished by removing the users' identities from the
 requests and with the use of spatiotemporal obfuscation of the
-location information. 
+location information.
 
-Mokbel et al. in~\cite{mokbel2006new} use the \emph{k-anonymity} concept as well.
-They present the Casper framework which consists of two main
-components, a location anonymizer and a privacy-aware query processor.
-The location anonymizer blurs the location information about each user
-according to that user's defined preferences (minimum area $A_{min}$
-in which she wants to hide and minimum value for $k$). The query
-processor tunes the functionality of traditional location-based
-databases to be privacy-aware. It does so by returning cloaked areas
-instead of exact points when queried for location information.
+Mokbel et al. in~\cite{mokbel2006new} use the \emph{k-anonymity}
+concept as well.  They presented the Casper framework which consists of
+two main components, a location anonymizer and a privacy-aware query
+processor.  The location anonymizer blurs the location information
+about each user according to that user's defined preferences (minimum
+area $A_{min}$ in which she wants to hide and minimum value for
+$k$). The query processor tunes the functionality of traditional
+location-based databases to be privacy-aware. It does so by returning
+cloaked areas instead of exact points when queried for location
+information.
 
 Unlike the previous \emph{k-anonymity} based approaches that require a
 centralized trusted server (Anonymizer) in order to compute the cloaking
 regions, Ghinita et al. in ~\cite{ghinita2007prive} use a
 decentralized peer-to-peer approach. This fixes two issues inherent to
-the centralized server approach: 
+the centralized server approach:
 \begin{itemize}
 \item Fault Tolerance -  the
 anonymizer is a single point of failure and the system cannot work
@@ -220,7 +224,7 @@ cloaking regions. A cloaking region with $k$ users satisfies
 reciprocity only if that same cloaking region is generated for each of
 users. This means that an attacker cannot use \emph{minimality} attacks
 \cite{wong2007minimality}, i.e. it cannot infer which user is the
-source of the request with a probability bigger than $\frac{1}{k}$.
+source of the request with a probability bigger than $k^{-1}$.
 
 \subsubsection{Obfuscation}
 \label{sec:Obfuscation}
@@ -260,7 +264,7 @@ vertex $l \in V$. Obfuscation is provided through the use of a group
 of vertices $O$ such that $l \in O$ and $O \in V$, where for every
 element $o \in O$, $o$ is \emph{indiscernible} from $l$. The larger
 the set $O$, the less information is being revealed and therefore, the
-greater is the individual's privacy. The set $O$ is used by their
+greater is that individual's privacy. The set $O$ is used by their
 algorithms to negotiate the balance between an individual's location
 privacy and that individual's need for quality services. The more
 information an individual is willing to reveal the higher the quality
@@ -296,7 +300,7 @@ be applied in the generalization process. The application of these
 rules depends on the Life Cycle Policy (LCP). A LCP consists of the
 set of transitions between the generalization structures'
 branches/vertexes as well as the events that trigger them. The biggest
-challenge in this type of approaches is the difficulty associated with 
+challenge in this type of approaches is the difficulty associated with
 the construction of the sets of rules and the generalization
 structures.
 
@@ -421,7 +425,7 @@ to $y$, where $N$ is the number of distinct elements in the multiset
 cases, $\rho(x)=3$ in $12.5\%$ of the cases, \ldots). Figure
 \ref{fig:hyperloglog_sketches} shows the behavior of these algorithms,
 but for ease of representation instead of small bit arrays it uses
-integers to represent the buckets. 
+integers to represent the buckets.
 %Insertion works as follows:
 % \begin{enumerate}
 % \item Starting from left to right (it could be done from right to
@@ -492,7 +496,7 @@ elements. However, all the sketches to be merged must be similar (same
 size/accuracy). Furthermore, each of them has to be big enough to hold
 the aggregate number of distinct elements. For instance, given two
 sketches with no overlap between their elements, with $200$ and
-$10000$ distinct elements, if we plan on computing their aggregate 
+$10000$ distinct elements, if we plan on computing their aggregate
 then each sketch must be big enough to hold at least $10200$ elements.
 RIA-DC sketches don't suffer from this issue. They have the ability to
 merge sketches of different sizes. However, this ability comes with a
@@ -699,7 +703,7 @@ An important property of this mechanism is the result by Charron-Bost
 \cite{charron1991concerning} proving that Vector Clocks are the most
 concise characterization of causality among process events.
 
-%%% Local Variables: 
+%%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../thesis"
-%%% End: 
+%%% End:

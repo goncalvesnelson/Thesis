@@ -3,7 +3,7 @@
 
 In this chapter, we tackle one of the most common forms of urban
 sensing: counting unique visitors across multiple gate counters to
-measure the flow of people across the urban setting. 
+measure the number of people across the urban setting.
 
 \section {Motivation and System Model}
 \label{sec:motivation}
@@ -85,7 +85,7 @@ not suitable for privacy preservation.
 
 \subsection{Objectives}
 \label{sec:objectives}
- 
+
 In this chapter, we explore the use of stochastic summarizing
 techniques as a privacy preserving approach to enable Bluetooth-based
 gate counting of unique entities across multiple nodes. The objective
@@ -114,7 +114,7 @@ key factors such as cardinality and support for merge operations.
 % % device generates at each gate.
 % %we may want to know on which gate set a particular device has been seen, we do
 % %not need to know the specific sequence through which the device has been seen at
-% %those locations. 
+% %those locations.
 
 % Probabilistic counters provide an interesting solution to this problem. They are
 % flexible enough for estimating the overall number of unique sightings with some
@@ -127,10 +127,10 @@ key factors such as cardinality and support for merge operations.
 This section tests some of the techniques mentioned in Section
 \ref{sec:algorithms_and_data_structures}, namely LogLog Sketches
 \cite{Durand:2003tc}, HyperLogLog Sketches \cite{Fusy:2007um}, LC
-Sketches \cite{Whang:1990uh}, RIA-LC Sketches, 
+Sketches \cite{Whang:1990uh}, RIA-LC Sketches,
 \cite{Fan:2008wl,YaoChungFanArbeeLPChen:2010to}, RIA-DC Sketches
 \cite{YaoChungFanArbeeLPChen:2010to}, Bloom Filters~\cite{Bloom1970}
-and Scalable Bloom Filters~\cite{Almeida2007}. 
+and Scalable Bloom Filters~\cite{Almeida2007}.
 
 These techniques where picked because they provide an interesting
 solution to this gate counting problem. Probabilistic counters are
@@ -150,8 +150,8 @@ proposed techniques.
 % Processing power SHA1 - Energy Comparison of AES and SHA-1 for Ubiquitous
 % Computing
 
-\subsubsection{Accuracy} 
-\label{sec:accuracy} 
+\subsubsection{Accuracy}
+\label{sec:accuracy}
 
 With this criterion we want to evaluate the accuracy of the
 techniques, their ability to count multiple sightings of the same
@@ -220,9 +220,9 @@ LC Sketches]{
 \end{figure}
 
 \begin{figure}[htb]
-\includegraphics[width=\textwidth]{images/merge.pdf} 
-\caption{Gate Counter Aggregation - repeated devices appear only once } 
-\label{fig:gate_counter_aggregation} 
+\includegraphics[width=\textwidth]{images/merge.pdf}
+\caption{Gate Counter Aggregation - repeated devices appear only once }
+\label{fig:gate_counter_aggregation}
 \end{figure}
 
 With the exception of Scalable Bloom Filters and RIA-DC sketches, all
@@ -260,7 +260,7 @@ seen during the entire week.
 
 As we can see both \emph{time segmentation} and \emph{aggregate counting}
 are in fact variations of the same problem, which can only be solved with
-techniques that support merging. 
+techniques that support merging.
 
 \begin{figure}[htb]
 %\centering
@@ -278,10 +278,10 @@ techniques that support merging.
 }
 
 \caption{Relative error of the several techniques using various upper
-  bounds. Average of 100 runs.} 
+  bounds. Average of 100 runs.}
 \label{fig:accuracy}
 \end{figure}
-   
+
 \begin{figure}[htb]
 %\centering
 \subfigure[Number of bits per element used by each technique at different cardinalities]{
@@ -303,7 +303,7 @@ Using the results from our benchmark\footnote{Our Benchmark was built
 \ref{fig:size_benchmark} and having explained the
 different criteria we can now analyze each one of the techniques.
 
-\subsubsection{Standard and Scalable Bloom Filters} 
+\subsubsection{Standard and Scalable Bloom Filters}
 Both techniques provide a good accuracy for all the cardinalities
 tested, never surpassing the stipulated relative error. Figure
 \ref{fig:accuracy} confirms both these facts. However, looking at
@@ -317,7 +317,7 @@ the seemingly strange behavior of the technique. Both these techniques
 are also the most computationally expensive of all in terms of
 insertion complexity.
 
-\subsubsection{LogLog and HyperLogLog Sketches} 
+\subsubsection{LogLog and HyperLogLog Sketches}
 As depicted by Figures \ref{fig:accuracy0_1k} and
 \ref{fig:accuracy1k}, these techniques have very low accuracy for
 small cardinalities ($\lesssim 1800$). Apart from this issue, they are
@@ -330,7 +330,7 @@ variance. Regarding insertion complexity, these techniques are less
 expensive than Bloom Filters, but more expensive than the LC Sketches
 based ones.
 
-\subsubsection{LC Sketches, RIA-LC Sketches and RIA-DC Sketches} 
+\subsubsection{LC Sketches, RIA-LC Sketches and RIA-DC Sketches}
 Spending only a little more memory than LogLog Sketches, LC Sketches
 do not suffer from poor accuracy in smaller cardinalities, they have
 good all around good accuracy just like Bloom Filters. LC Sketches are
@@ -361,28 +361,28 @@ techniques discussed in this chapter are more efficient in terms of
 space than storing each unique device 48 bit MAC address (check
 Fig.\ref{fig:bits_element}).
 
-\section{Synopsis}
-\label{sec:conclusion}
+\section{Summary}
+\label{sec:gc_summary}
 Bluetooth devices are pervasive in most societies and the number of unique
 Bluetooth sightings is an adequate proxy for the number of actual individuals
 present. The trivial approach of collecting and counting the set of detected
 Bluetooth MAC addresses is not adequate, in most settings, both in terms of
 privacy concerns, system scalability and adequacy to devices with limited
-memory.  
+memory.
 
 In this chapter we described and benchmarked a set of stochastic summarizing
 techniques that can be applied to the gate counting problem. By using these
 techniques our approach ensures the privacy of the users since Gate Counters
 don't store any extra raw information, i.e, the raw information that
-they keep at any given moment is also present in the Bluetooth network. 
-  
+they keep at any given moment is also present in the Bluetooth network.
+
 Furthermore, the analysis of these techniques and their trade-offs
 should help to determine the most adequate solutions for a specific
 gate counting scenario. % We also hope to have motivated the community
 % to the relevant role of stochastic counting techniques in privacy
 % preserving gate counting.
 
-%%% Local Variables: 
+%%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../thesis"
-%%% End: 
+%%% End:
