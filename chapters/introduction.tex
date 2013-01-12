@@ -32,15 +32,23 @@ information. Researchers have also shown that looking at the historic
 of someone's location data is possible to predict their future
 whereabouts~\cite{krumm2006predestination,froehlich2008route}.
 
-While location based information is very useful, the fact that it
-can be used to attack the privacy of the users might be a decisive
-factor in the popularity and sustainability of services supported by
-this type of information.  The solution to this problem consists in
-the use of privacy preserving approaches capable of ensuring both the
-quality of the service and the privacy of its users.
-Stochastic summarizing techniques consist of non deterministic
-techniques capable of \todo{definir tecnicas de
-  sumarização estocasticas}
+While location based information is very useful, the fact that it can
+be used to attack the privacy of the users might be a decisive factor
+in the popularity and sustainability of services supported by this
+type of information.  The solution to this problem consists in the use
+of privacy preserving approaches capable of ensuring both the quality
+of the service and the privacy of its users.
+
+Stochastic summarizing techniques are space efficient, probabilistic
+mechanisms, capable of producing summaries of the data they receive as
+input.  The size of the summaries depends only on the number of input
+elements, not on the size of the elements. Being non-deterministic,
+these techniques do not allow the original item to be recreated from
+its resulting summary. however they do offer a trade-of between space
+and accuracy where one is obtained at the expense of the other.
+
+% i.e., it is always $x * N$ bits, where $x$ is a
+% predetermined value and $N$ is the number of elements
 
 This dissertation aims to find if stochastic summarizing techniques
 are suitable as privacy preserving techniques regarding location
