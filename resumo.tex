@@ -1,5 +1,43 @@
+\chapter*{Resumo}
+Motivados pelo cada vez maior número de dispositivos móveis, os
+serviços baseados na localização estão a tornar-se cada vez mais
+populares.  Estes serviços utilizam informação acerca da
+localização física dos utilizadores, normalmente para fins comerciais
+ou informativos. Contudo, e particularmente para cenários de larga
+escala, este tipo de serviços pode constituir um risco para a
+privacidade dos utilizadores. Informação relacionada com localização
+dos utilizadores pode ser utilizada de forma direta ou indireta
+(associada com outra informação) para revelar informação privada
+acerca dos utilizadores, podendo até ser suficiente para revelar a
+identidade dos mesmos.  Este facto pode levar à rejeição deste tipo de tecnologias.
 
-%%% Local Variables: 
+Existem contudo, maneiras não triviais de guardar informação sem
+comprometer a privacidade dos utilizadores.  Nesta dissertação, apresentamos
+dois cenários Bluetooth, onde o problema da privacidade é
+solucionado através do uso de técnicas de sumarização estocásticas.
+
+No primeiro cenário, \textit{Gate Counting}, o objetivo é obter
+contagens precisas para o número de avistamentos de dispositivos distintos,
+tentando em simultâneo reduzir a quantidade de informação
+recolhida. Para esse efeito, fazemos uma análise a várias
+técnicas de contagem estocásticas que não só fornecem contagens
+precisas para o número de dispositivos únicos, como também
+garantias de privacidade, tudo de uma forma eficiente em termos de
+espaço.
+
+Para o segundo cenário, \textit{Causality Tracking}, o objetivo é
+estudar os padrões de mobilidade humanos, ao mesmo tempo que, também
+se tenta minimizar a quantidade de informação recolhida.  Com este
+propósito, desenvolvemos os Filtros de Precedência, uma nova técnica
+capaz de fornecer resultados precisos sobre a popularidade de
+determinados percursos/caminhos específicos, sem comprometer a
+privacidade individual dos utilizadores.
+
+Com base nestes cenários, esta dissertação demonstra que as técnicas
+de sumarização estocásticas são meios viáveis para a anonimização de
+informação baseada na localização.
+
+%%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "thesis"
-%%% End: 
+%%% End:

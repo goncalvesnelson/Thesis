@@ -354,28 +354,30 @@ Still in the context of evaluating the PF's performance, we built a
 synthetic trace generator. Our motivation came from the need to
 simulate scenarios with arbitrary number of locations and users.
 
-In a first approach, we tried duplicating
-the statistic distribution of the real data set using a negative
-exponential distribution. This would have allowed us to choose an
-arbitrary number of sensors, users and trace length. However, after
-evaluation with Pearson's Chi-Square test, it turned out to be a bad
-fitting. \todo{Dizer que deve ser uma distribuição entre exponencial e
-powerlaw ou então uma distribuição hibrida??}
+In a first approach, we tried fitting the statistic distribution of
+the real data set using a negative exponential distribution. This
+would have allowed us to choose an arbitrary number of sensors, users
+and trace length. However, after evaluation with Pearson's Chi-Square
+test, it turned out to be a bad fitting. \todo{Dizer que deve ser uma
+  distribuição entre exponencial e powerlaw ou então uma distribuição
+  hibrida??}
 
-On a second approach,  it was decided to use the
-same number of sensors as the real data set, i.e. 18. This allowed us
-to simulate the popularity of each sensor/place using the number of
-sightings from the real data set as weights. The larger the number of
-sightings at a sensor, the bigger its weight is, and the more likely
-it is to be chosen. Each node is defined by two parameters, unique
-sightings and total sightings. We only made use of the latter. This
-allowed the creation of a simpler and less error prone simulator,
-capable of producing as many users as we want, as well as mobility
-traces with arbitrary length. The downside of not using the unique
-number of sightings is that we are assuming that even though places
-have different weights, they are the same for everyone, i.e. everyone
-has the same probability of choosing a given place, everyone is an
-``average'' person.
+On a second approach, it was decided to use the same number of sensors
+as the real data set, i.e. 18. This allowed us to simulate the
+popularity of each sensor/place using the number of sightings from the
+real data set as weights. The larger the number of sightings at a
+sensor, the bigger its weight is, and the more likely it is to be
+chosen. Each node is defined by two parameters, unique sightings and
+total sightings. We only made use of the latter. The use of
+\emph{replication}\footnote{In statistics, replication is the
+  repetition of an experiment or observation in the same or similar
+  conditions.} allowed the creation of a simpler and less error prone
+simulator, capable of producing as many users as we want, as well as
+mobility traces with arbitrary length.  The downside of not using the
+unique number of sightings is that we are assuming that even though
+places have different weights, they are the same for everyone,
+i.e. everyone has the same probability of choosing a given place,
+everyone is an ``average'' person.
 
 Figure \ref{fig:dev_sig_synthetic} shows the synthetic distribution
 obtained using the approach mentioned above.  As expected the results
@@ -388,33 +390,40 @@ synthetic data set is smoother, it does not suffer from the
 \section{Evaluation}
 \label{sec:ct-evaluation}
 
-Using the metrics and data sets previously mentioned we tested the
-Precedence Filter's inaccuracy across several scenarios where we
-varied both the number of devices and the length of the mobility
-traces. Furthermore, each of those scenarios was tested with multiple
-different settings for the Counting Bloom Filter's maximum false
-positive probability (see Equation \ref{eq:false_positive}).
+Using the metrics and data sets previously mentioned, we tested the
+Precedence Filter's inaccuracy across several scenarios, varying both
+the number of devices and the length of the mobility traces.
+Furthermore, each of the scenarios was tested with multiple different
+settings for the Counting Bloom Filter's maximum false positive
+probability (see Equation \ref{eq:false_positive}).
+A good performance is reflected through high inaccuracy values for
+individual information together with low values for global inaccuracy.
 
-The inaccuracy is manifested via the occurrence of fake (PF only)
-transitions, i.e. \emph{fictitious transitions}. As the false
-probability increases, so does the percentage of fake
-transitions.  This easily explainable. In Bloom Filters, false
-positives denote elements wrongfully considered as belonging to the
-set.  Given that in PFs, Bloom Filters are used to record device
-sightings, false positives map to fake device sightings which in turn
-give origin to fictitious transitions.
+As can be seen in Figures \ref{fig:perf_results_real_sim},
+\ref{fig:perf_results_sim_device_number},
+\ref{fig:perf_results_sim_trace_size} and
+\ref{fig:perf_results_sim_devices_traces}, by increasing the false
+positive probability of CBFs, inaccuracy increases as well.
+Inaccuracy is manifested via the occurrence of fake (visible on PFs
+only) transitions, i.e., \emph{fictitious transitions}. As the false
+probability increases, so does the percentage of fake transitions.
+This easily explainable. In Bloom Filters, false positives denote
+elements wrongfully considered as belonging to the set.  Given that in
+PFs, Bloom Filters are used to record device sightings, false
+positives map to fake device sightings which in turn give origin to
+fictitious transitions.
 
 As previously explained, both data sets use 18 scanning nodes, what
 differs is the number of devices and the length of the mobility
 traces. To describe the parameters of each scenario, the following
 notation is used in the captions: Synthetic/Real-[\emph{number of
   devices}]-[\emph{maximum trace length}]-[\emph{average trace
-  length}]
+  length}].
 
 \begin{figure}[htb]
 \centering
- \subfigure[Synthetic-2805-11-4]{
- \label{fig:s_2805_11_4}  \includegraphics[width=0.33\linewidth]{images/s18x2805x11x4.pdf}
+\subfigure[Synthetic-2805-11-4]{
+\label{fig:s_2805_11_4}  \includegraphics[width=0.33\linewidth]{images/s18x2805x11x4.pdf}
 }\hspace*{-0.7em}
 \subfigure[Real-2805-11-4]{
   \label{fig:r_2805_11_4} \includegraphics[width=0.33\linewidth]{images/r18x2805x11x4.pdf}
@@ -426,23 +435,19 @@ notation is used in the captions: Synthetic/Real-[\emph{number of
 
 Figure \ref{fig:perf_results_real_sim} shows the comparison between a
 synthetic data set and the real data set. This synthetic data set will
-serve as the baseline in all tests because it simulates both the number
-of devices and trace length found in the real data set. When comparing
-both graphs, we see that the global inaccuracy is bigger in the real
-data set (Figure \ref{fig:r_2805_11_4}). This is due to the noise
-existent
-inaccuracy is slightly
-
-
-
-
-several scenarios chosen to test Precedence Filters.
-Looking at
-Figure \ref{fig:r_2805_11_4} we can check that precedence filters
-behavior regarding the real data set. As expected, increasing the
-false positive probability of the Counting Bloom Filters leads to
-increasing inaccuracy as well. This is true for both the individual
-and global metrics.
+serve as the baseline for all tests because it simulates both the
+number of devices and trace length found in the real data set.  Our
+technique performs better with data from the synthetic data set
+(Figure~\ref{fig:s_2805_11_4}) than it does with the real one
+(Figure~\ref{fig:s_2805_11_4}).  This is a consequence of the average
+person simplification we did for the synthetic data sets.  For both
+these data sets there is a point where the individual accuracy is
+greater than the global one, however, when the individual inaccuracy
+is approximately $50\%$, the global inaccuracy is higher than what is
+desirable. This is a result of the low number of individuals and small
+mobility trace sizes of both data sets, as supported by Figures
+\ref{fig:perf_results_sim_device_number} and
+\ref{fig:perf_results_sim_device_number}.
 
 \begin{figure}[htb]
 \subfigure[Synthetic-2805-11-4]{
@@ -457,6 +462,13 @@ and global metrics.
 \caption{Synthetic data sets with increasing number of devices}
 \label{fig:perf_results_sim_device_number}
 \end{figure}
+Figure \ref{fig:perf_results_sim_device_number} shows that Precedence
+Filter's global inaccuracy drops by increasing the number of devices
+to 10 000, and then again, although little, by increasing that number
+to 100 000. In both these scenarios, for a false positive value of
+$0.8$, PFs provide global inaccuracy below $20\%$ while ensuring that
+in average, $50\%$ of the information about any given individual is
+incorrect.
 
 
 \begin{figure}[htb]
@@ -473,35 +485,52 @@ and global metrics.
 \label{fig:perf_results_sim_trace_size}
 \end{figure}
 
+Keeping the same number of devices, while increasing the length of the
+mobility traces also improves the Precedence Filter's global accuracy, as
+depicted by Figure \ref{fig:perf_results_sim_trace_size}. For instance,
+Figure \ref{fig:s_2805_100_30} shows that by increasing the average
+and maximum values for mobility traces respectively to 30 and 100, our
+technique offers a global error of about $15\%$, while providing $50\%$
+of inaccuracy for individual information.
 
 \begin{figure}[htb]
 \subfigure[Synthetic-2805-11-4]{
 \label{fig:s_2805_11_4}  \includegraphics[width=0.33\linewidth]{images/s18x2805x11x4.pdf}
 }\hspace*{-0.7em}
+\subfigure[Synthetic-10000-50-16]{
+ \label{fig:_2805_50_13}  \includegraphics[width=0.33\linewidth]{images/s18x10000x50x16.pdf}
+}\hspace*{-0.7em}
 \subfigure[Synthetic-100000-100-30]{
  \label{fig:_2805_50_13}  \includegraphics[width=0.33\linewidth]{images/s18x100000x100x30.pdf}
-}\hspace*{-0.7em}
-\subfigure[Synthetic-1000000-1000-30]{
-\label{fig:s_2805_100_30}  \includegraphics[width=0.33\linewidth]{images/s18x2805x100x30.pdf}
 }
 \caption{Synthetic data sets with increasing number of devices and
   trace sizes}
 \label{fig:perf_results_sim_devices_traces}
 \end{figure}
 
+Increasing both the number of devices and the length of the mobility
+traces yields the better results, which is not surprising given both
+the previous results.
 
-The inaccuracy is manifested via the occurrence of fake (PF only)
-transitions, i.e. \emph{fictitious transitions}. As the false
-probability increases, so does the percentage of fake
-transitions. This easily explainable. In Bloom Filters, false
-positives denote elements wrongfully considered as belonging to the
-set. Given that in PFs, Bloom Filters are used to record device
-sightings, false positives map to fake device sightings which in turn
-give origin to fictitious transitions.
+In a scenario with 100 000 users whose maximum and average mobility
+trace sizes are respectively 100 and 30, depicted in Figure
+\ref{fig:_2805_50_13}, our technique has a global inaccuracy value a
+little higher than $10\%$ while providing an individual inaccuracy of
+$50\%$.  This means that, in average, half of information about
+individual transitions is wrong, which we consider to be a value
+compatible with plausible deniability.
+\todo{Será que vale apena mencionar que o comportamento dos graficos
+  com 50 000 utilizadores apesar de ser algo melhor (embora pouco)para
+  probabilidades entre os 0.3 e os 0.8 não interessa, pois o erro
+  individual é baixo nesses valores}
 
-In Figure\todo{referencia dataset real}, for high false positive
-probabilities ($\gtrsim$ 0.6), the global inaccuracy (dashed line) of our
-mechanism is below the individual inaccuracy (solid line). This
+Global inaccuracy measures the ratio between the number of occurrences
+of a transition and the total number of occurrences for all transitions.
+Even though increasing the false positive probability of CBFs
+increases the total number of occurrences of the transitions, which is
+why the individual accuracy drops, the relative weight of each
+transition (ratio) is remains more or less stable, thus the behavior of the
+global inaccuracy lines.
 
 \section{Summary}
 \label{sec:ct-summary}
