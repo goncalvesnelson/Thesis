@@ -19,6 +19,20 @@
 \usepackage{subfigure}
 \usepackage{amssymb}
 \usepackage{todonotes}
+\usepackage{backref}
+
+\renewcommand*{\backref}[1]{}% for backref &lt; 1.33 necessary
+\renewcommand*{\backrefalt}[4]{%
+\ifcase #1 %
+- Not cited.%
+\or
+-  \textbf {Cited} on page~#2.%
+\else
+-  \textbf{Cited} on pages~#2.%
+\fi}
+\renewcommand*{\backrefsep}{, }
+\renewcommand*{\backreftwosep}{ and~}
+\renewcommand*{\backreflastsep}{ and~}
 
 \setlength{\oddsidemargin}{31.0pt}
 \setlength{\evensidemargin}{31.0pt}
