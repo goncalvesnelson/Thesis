@@ -38,26 +38,26 @@ Conceptually, a gate is a virtual line across a street, and gate
 counting is the process of counting the number of people crossing that
 line. Each Bluetooth node is modeled as a gate counter that counts the
 number of unique Bluetooth addresses observed during a certain period.
-The use of Bluetooth as an enabling technology to establish the flows
-of people it not a new concept. There are several examples, be it
-within a city~\cite{Oneill:2006vq}, outdoor
-festival~\cite{versichele2012use} or shopping mall
-~\cite{millonig2008shadowing}.
+% The use of Bluetooth as an enabling technology to establish the flows
+% of people it not a new concept. There are several examples, be it
+% within a city~\cite{Oneill:2006vq}, outdoor
+% festival~\cite{versichele2012use} or shopping mall
+% ~\cite{millonig2008shadowing}.
 
-A Bluetooth-based gate counter does not really count all the persons
+A Bluetooth-based gate counter does not really count all the people
 passing-by, but only those who are carrying discoverable Bluetooth
 devices. Still, this is enough to make a reasonable correlation, using
-baseline data, to estimate the overall traffic. A gate counter should
+baseline data to estimate the overall traffic. A gate counter should
 recognize subsequent sightings of the same entity. In a gate counting
 scenario, repeated sightings of the same device can be very common,
-not only because people can be passing-by multiple times, but also
+not only because people can be passing by multiple times, but also
 because of persistent devices. Instead of scanning through a line,
 Bluetooth discovery is actually performed in an area and thus any
 device in that area, possibly in nearby buildings, would be repeatedly
 discovered. Results from empirical studies with known static and
 transient devices suggest that a transient device typically appears
 for up to 90 seconds while it crosses a gate \cite{Oneill:2006vq}. A
-proper gate counting process would thus needs to account for this and
+proper gate counting process would thus need to account for this and
 filter persistent devices.
 
 A gate counter should also be able to answer questions like ``how many
@@ -76,9 +76,9 @@ Imagine, for example, a city festival with multiple gate counters
 operating at various locations to count the number of visitors to the
 festival. The simple sum of individual gate counts would clearly
 overestimate the number of people since many of them would be spotted
-at multiple gates. We thus need some technique that works across
+at multiple gates. Thus, we need some technique that works across
 multiple gate counters and is able to provide an aggregate count of
-the unique device addresses that have been spotted in the entire set
+the unique devices that have been spotted in the entire set
 of gate counters. Comparing the plain addresses observed at different
 gates would immediately solve this problem, but as we have seen, it is
 not suitable for privacy preservation.
@@ -90,7 +90,7 @@ In this chapter, we explore the use of stochastic summarizing
 techniques as a privacy preserving approach to enable Bluetooth-based
 gate counting of unique entities across multiple nodes. The objective
 is to assess the extent to which these techniques are able to address the
-specific requirements of this distributed gate counting model and
+specific requirements of this distributed gate counting model, and
 inform the design of large scale Bluetooth sensing systems.
 
 Having identified the sensing requirements for this scenario we have
@@ -133,7 +133,7 @@ Sketches \cite{Whang:1990uh}, RIA-LC Sketches,
 and Scalable Bloom Filters~\cite{Almeida2007}.
 
 These techniques where picked because they provide an interesting
-solution to this gate counting problem. Probabilistic counters are
+solution to the gate counting problem. Probabilistic counters are
 flexible enough for estimating the overall number of unique sightings
 with some controllable accuracy, without ever keeping the plain
 Bluetooth addresses.
@@ -181,12 +181,11 @@ static size techniques, once we create an instance with a certain capacity
 it is not possible to change that capacity afterwards, while for dynamic
 techniques there is no such constraint.
 
-To further help us in our analysis, we can look at Figures
-\ref{fig:bits_element} and \ref{fig:size}. Figure
-\ref{fig:bits_element} depicts the number of bits per unique element
-that each technique requires along a range of cardinalities. Figure
-\ref{fig:size} shows the total size spent by each technique to store a
-given number of distinct elements.
+To further help us in our analysis, we can look at Figure
+\ref{fig:size_benchmark}. Figure \ref{fig:bits_element} depicts the
+number of bits per unique element that each technique requires along a
+range of cardinalities. Figure \ref{fig:size} shows the total size
+spent by each technique to store a given number of distinct elements.
 
 \subsubsection{Aggregation}
 \label{sec:mergeAbility}
@@ -237,7 +236,7 @@ overlap of elements between the different counters.
 
 Aggregation is also important as a mean for answering time related
 questions like ``how many different people were seen in a given gate
-in the last 24 hours ?'' or ``what was the number of visitors of an
+in the last 24 hours?'' or ``what was the number of visitors of an
 amusement park during visitors peak hours?''. To answer these types of
 questions, it must be possible to distinguish/segment counter readings
 over time. This can by accomplished by sensor nodes periodically
@@ -258,7 +257,7 @@ size of the counter that stores the unique number of devices sighted
 during an hour has to big enough to fit the number or unique devices
 seen during the entire week.
 
-As we can see both \emph{time segmentation} and \emph{aggregate counting}
+As we can see, both \emph{time segmentation} and \emph{aggregate counting}
 are in fact variations of the same problem, which can only be solved with
 techniques that support merging.
 
@@ -333,13 +332,13 @@ based ones.
 \subsubsection{LC Sketches, RIA-LC Sketches and RIA-DC Sketches}
 Spending only a little more memory than LogLog Sketches, LC Sketches
 do not suffer from poor accuracy in smaller cardinalities, they have
-good all around good accuracy just like Bloom Filters. LC Sketches are
+an all around good accuracy just like Bloom Filters. LC Sketches are
 a good all around technique. Being based on Linear Counting Sketches,
 it is no surprise that RIA-DC and RIA-LC Sketches also have good
 accuracy results. Furthermore and like their ancestor, they also
 achieve good results in the bits per element ratio. These techniques
 are also the ones with the smallest complexity in
-terms of element insertion. \\
+terms of element insertion. \\ \\
 
 Taking into account all that has been said, there are a few
 conclusions to be drawn. For scenarios where we cannot make
@@ -358,7 +357,7 @@ simplified version of the former.
 
 As a final remark, we should emphasize the fact that all the
 techniques discussed in this chapter are more efficient in terms of
-space than storing each unique device 48 bit MAC address (check
+space than storing each unique device's 48 bit MAC address (check
 Fig.\ref{fig:bits_element}).
 
 \section{Summary}
@@ -373,7 +372,7 @@ memory.
 In this chapter we described and benchmarked a set of stochastic summarizing
 techniques that can be applied to the gate counting problem. By using these
 techniques our approach ensures the privacy of the users since Gate Counters
-don't store any extra raw information, i.e, the raw information that
+don't store any extra raw information, i.e., the raw information that
 they keep at any given moment is also present in the Bluetooth network.
 
 Furthermore, the analysis of these techniques and their trade-offs

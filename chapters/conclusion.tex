@@ -14,17 +14,17 @@ across one or several gate counters.  Moreover, we analyzed the
 performance of each technique regarding their size, accuracy and
 aggregation capabilities and had a little discussion about some gate
 counting scenarios where each technique might be a good
-fit. Altogether, these techniques prove to be a good solution for gate
+fit. Altogether, these techniques proved to be a good solution for gate
 counting scenarios, preserving the privacy of the users (no need to
 store unique identifiers). All while being much more efficient (one
 order of magnitude in some cases) in terms of space than the naive
 approach (plain storage of MAC addresses).
 
 
-For the second scenario we introduced a new technique, Precedence
+For the second scenario, we introduced a new technique, Precedence
 Filters. This technique allowed us to gather accurate information
 about the visiting patterns of groups of users all while ensuring that
-the information they keep about individuals has a level of uncertainty
+the information kept about individuals has a level of uncertainty
 compatible with plausible deniability.  This affirmation is confirmed
 by the results obtained from our tests as they show that depending on
 the number of users and places visited (trace size) it is possible to
@@ -56,15 +56,15 @@ able to test the occurrence of network partitions.  This would allow
 us to test how Precedence Filters cope with such scenarios. Given that
 PFs are based upon Vector Clocks, it should be possible to leverage
 their capabilities to detect the occurrence of conflicts (deriving
-from the partition) and then the simplest solution would be to discard
+from the partition), and then the simplest solution would be to discard
 all the related information.
 
-The other issue pertains the employed data sets. All the test we ran were
-based upon a single data set, so it would be useful to test PFs using
-other data sets taken real world scenarios. Also, it would helpful to
-find a statistical distribution that fits the data set we already
-have, thus allowing the synthetic creation of scenarios with an
-arbitrary number of scanning nodes.
+The other issue pertains the data sets. All the test we
+ran were based upon a single data set, so it would be useful to test
+PFs using other data sets taken from real world scenarios. Also, it would
+helpful to find a statistical distribution that fits the data set we
+already have, thus allowing the synthetic creation of scenarios with
+an arbitrary number of scanning nodes.
 
 
 %%% Local Variables:

@@ -86,7 +86,7 @@ pervasive infrastructures~\cite{kostakos2009understanding}. Associated
 with the increasing number of mobile devices is the popularity growth
 of Location-Based Services (LBS)\cite{zickuhr2012three}. LBSs
 determine the location of the user by using one of several
-technologies for determining position, and then use the location and
+technologies for determining its position, and then use the location and
 other information to provide personalized applications and
 services~\cite{zibuschka2011location}. There are however privacy risks
 that stem from the use of such services.
@@ -97,12 +97,12 @@ Twitter\footnote{www.twitter.com} it demonstrates how easy it is to
 infer that someone is not at home. Despite the existence of reports
 linking the sharing of location information with the occurrence of
 robberies\cite{Grove:2009:Online,Dybwad:2009:Online}, there are
-several research works that show that most people put little value on
+several research works which show that most people put little value on
 their location privacy~\cite{ahern2007over,colbert2001diary,
   Cvrcek:2006:SVL:1179601.1179621,kaasinen2003user}. However, this
 lack of concern by the users of LBSs is usually a consequence of lack
 of awareness. In \cite{kaasinen2003user} the author notes that,
-despite not being worried about the privacy issues with location aware
+despite not being worried about the privacy issues arising from location aware
 services, most of the users were not aware they could be located while
 using those services. On the other hand, the work in
 \cite{Cvrcek:2006:SVL:1179601.1179621} shows that the Greeks demanded
@@ -112,7 +112,7 @@ of the eavesdropping scandal involving the wiretap of Greek
 politicians that took place 2 months before the survey. This might
 indicate that people value their privacy the most when faced with
 consequences from the lack of it. Sharing location data at such a
-large scale like we see today is relatively new. As a consequence the
+large scale like we see today is relatively new. As a consequence, the
 effects on user privacy are not fully understood
 yet \cite{Terrovitis:2011:PPD:2031331.2031334}.
 
@@ -144,7 +144,7 @@ upon pseudonym exchange. They introduced two new concepts: \emph{mix
   zone} and \emph{application zone}. A \emph{mix zone} for a group of
 people is defined as the maximum contiguous area where none of the
 group's users exchanges information with a LBS. This prevents the
-users' data from being accessed by the LBSs providers. By contrast, an
+users' data from being accessed by the LBS providers. By contrast, an
 \emph{application zone} is defined as an area where at least one of
 the users exchanges data with a LBS. By switching her pseudonym to a
 new unused one when entering a \emph{mix zone}, the user ensures that
@@ -179,7 +179,7 @@ Geddik and Liu's
 define her own minimum acceptable value for $k$ ($k_{min}$), as well
 as the maximum acceptable values for temporal and spacial resolution.
 Furthermore, they created an efficient message perturbation engine
-capable of performing the location anonymization of users' requests.
+capable of performing location anonymization of users' requests.
 This is accomplished by removing the users' identities from the
 requests and with the use of spatiotemporal obfuscation of the
 location information.
@@ -211,7 +211,7 @@ without it.
 
 Their distributed protocol called PRIVÉ supports decentralized query
 anonymization with load balancing and fault tolerance. In PRIVÉ, for a
-user to be considered trustworthy and participate in the network she
+user to be considered trustworthy and participate in the network, she
 needs a trust certificate obtained from a Certification Server. Users
 in the network trust each other and communicate using a structured
 peer-to-peer network. Users are grouped into clusters according to
@@ -223,7 +223,7 @@ Furthermore, PRIVÉ also ensures \emph{reciprocity} in the creation of
 cloaking regions. A cloaking region with $k$ users satisfies
 reciprocity only if that same cloaking region is generated for each of
 users. This means that an attacker cannot use \emph{minimality} attacks
-\cite{wong2007minimality}, i.e. it cannot infer which user is the
+\cite{wong2007minimality}, i.e., it cannot infer which user is the
 source of the request with a probability bigger than $k^{-1}$.
 
 \subsubsection{Obfuscation}
@@ -231,7 +231,7 @@ source of the request with a probability bigger than $k^{-1}$.
 
 Obfuscation based techniques usually degrade the ``quality'' of the
 information in order to provide privacy protection. Even tough this may
-seem comparable to what \emph{k-anonymity} based techniques, there is a
+seem comparable to what \emph{k-anonymity} based techniques do, there is a
 key difference. Obfuscation based techniques allow the actual identity
 of the user to be revealed (thus making it suitable for applications
 that require authentication or offer some sort of  personalization
@@ -270,7 +270,7 @@ privacy and that individual's need for quality services. The more
 information an individual is willing to reveal the higher the quality
 of information he can provided with.
 
-Another example of an obfuscation based approach is shown by
+Another example of an obfuscation based approach was shown by
 Ardagna et al. in ~\cite{ardagna2007middleware} and later improved in
 \cite{ardagna2007location, ardagna2011obfuscation}. Their obfuscation
 process allows users to express their privacy preferences using
@@ -328,8 +328,8 @@ and Causality Tracking (Chapter~\ref{cha:causality-tracking}) scenarios.
 \subsection{Hash Sketches}
 \label{sec:hash_sketches}
 
-Hash Sketches are simple probabilistic data structure used to obtain
-the number of distinct elements in multisets There are several
+Hash Sketches are a simple probabilistic data structure used to obtain
+the number of distinct elements in multisets. There are several
 variants of Hash Sketches. Despite being different, all the discussed
 variants have at least one bit array and use some kind of
 hash function to map elements from the multiset to positions in the
@@ -348,7 +348,7 @@ This binary data structure is then used as input to an
 number of distinct elements in the multiset, it does not return exact
 results. The estimator performs some tests on the hashed
 binary data comparing the obtained results with the ones that would be
-expectable using probabilistic analysis. Finally, it infers a estimate
+expectable using probabilistic analysis. Finally, it infers an estimate
 for the number of distinct elements.
 
 In Hash Sketches, the same element is always mapped to the same
@@ -392,15 +392,15 @@ improving their accuracy. The main difference between PCSA and LogLog
 Sketches is that the latter consume a lot less memory at the expense
 of some accuracy. To create a LogLog sketch, one needs to know the
 number of distinct elements it will hold, or at least an upper bound
-for that number. That number along with the desired accuracy are the
+for that number. This number and the desired accuracy are the
 two design parameters for this algorithm. Having defined those, $m$
 buckets are created and initialized to $0$. Each bucket has a size
 close to $log(log(N_{max}))$ (hence the name LogLog Sketches), being
 $N_{max}$ the maximum number of distinct elements the sketch can hold.
-Given the hash code for element $e$, $hs(e)$ let $\mathfrak{R}_e$
+Given the hash code for element $e$, $hs(e)$, let $\mathfrak{R}_e$
 denote that code without the first $k=log_2(m)$ elements and $\rho(x)$
 a function that returns the index (starting at 1) of the leftmost $1$
-bit in $x$, e.g $\rho(1\ldots)=1,\ \rho(0001\ldots)=4$. To insert an
+bit in $x$, e.g. $\rho(1\ldots)=1,\ \rho(0001\ldots)=4$. To insert an
 element $e$ in the Sketch, the first $k$ bits of the element's hash
 code are used to pick one of the buckets, lets assume it was bucket
 $b_1$. Its content is updated as follows,
@@ -590,7 +590,7 @@ Filters. Suppose that we have a set that changes over time, where
 elements are inserted and deleted. The insertion of elements can be
 easily done using a normal Bloom Filter, hash the element $k$ times
 and set the bits to 1. Unfortunately the delete operation cannot be
-accomplished simply by reversing the process.The resulting positions
+accomplished simply by reversing the process. The resulting positions
 from the hash functions cannot be set to 0, because each position may
 be hashed by some other element from the set.
 
@@ -610,11 +610,11 @@ because in case the number of elements stored surpasses the original
 number that the filter was supposed to hold, the false positive
 probability starts to increase rapidly. That conservative approach
 usually leads to filters orders of magnitude larger than needed and
-consequently space waste. To tackle this issue, Almeida et
+consequently to wasted space. To tackle this issue, Almeida et
 al. \cite{Almeida2007} introduced the concept of Scalable Bloom Filters
 (SBF), a variant of Bloom Filters that can adapt dynamically to the
 number of elements stored while respecting a maximum false positive
-probability which is chosen in the beginning. SBF are a mechanism that
+probability, which is chosen in the beginning. SBF are a mechanism that
 adapts to growth of sets using a series of classic Bloom Filters of
 increasing sizes and tighter false positive probabilities. When the
 filters get full, a new one with $size = previous\ size*growth\ rate$
@@ -625,7 +625,7 @@ presence of an element, one has to query all filters.
 \label{sec:vector_clocks}
 
 Broadly speaking, a distributed system consists in a set of processes
-connected through a network. Each of these processes internal state can only
+connected through a network. Each of these processes' internal state can only
 change through the occurrence of events. There are 3 kinds of events: message
 sending, message reception and state transition events deriving from the
 normal execution of the process. In a distributed system, processes can only
@@ -642,9 +642,10 @@ two events, a first event (known as the \textit{cause}) and a second one (the
 In the context of Distributed Systems, causality is expressed using the
 \textit{happens-before} relation \cite{Lamport:1978} denoted by the
 $\rightarrow$ symbol. For instance, given 2 events, $x \rightarrow y$, reads
-as $x$ happened-before $y$ and means $y$ is a consequence of
+as $x$ happened-before $y$, and means $y$ might be a consequence of
 $x$.
- \textit{Happens-before} has the following properties over any given event:
+
+The \textit{happens-before} relation has the following properties over any given event:
 \begin{itemize}
 \item $\forall a,b,c$ if $a \rightarrow b$ and $b\rightarrow c$, then $a
   \rightarrow c$ (transitivity);
@@ -652,7 +653,7 @@ $x$.
 \item $\forall a,b$ if $a \rightarrow b$ then $b \nrightarrow a$ (antisymmetry)
 \end{itemize}
 
-Therefore, the \textit{happens-before} relation, is strict partial order over
+Therefore, it is a  strict partial order over
 sets of events.
 
 Vector Clocks were introduced by Colin Fidge \cite{Fidge} and Friedemann Mattern
