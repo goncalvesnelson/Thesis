@@ -320,10 +320,18 @@ structures.
 \section{Algorithms and data structures}
 \label{sec:algorithms_and_data_structures}
 In our work, we tested how the usage of stochastic summarizing
-techniques fared as an approach to some privacy preserving scenarios.
-This section briefly explains the algorithms and data structures that
-were used in both the Gate Counting (Chapter~\ref{cha:gate-counting})
-and Causality Tracking (Chapter~\ref{cha:causality-tracking}) scenarios.
+techniques fared as an approach to some privacy preserving
+scenarios. These techniques provide both the concepts we talked about
+in the previous section, anonymity and obfuscation. Being
+non-deterministic summarizing techniques, they degrade the quality of
+information in such a way that does not allow the recreation of the
+original data, thus the obfuscation property. On the other hand, by
+relying on hash functions to create pseudonyms, they afford anonymity.
+
+This section briefly explains the algorithms
+and data structures that were used in both the Gate Counting
+(Chapter~\ref{cha:gate-counting}) and Causality Tracking
+(Chapter~\ref{cha:causality-tracking}) scenarios.
 
 \subsection{Hash Sketches}
 \label{sec:hash_sketches}

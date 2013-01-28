@@ -49,16 +49,16 @@ passing-by, but only those who are carrying discoverable Bluetooth
 devices. Still, this is enough to make a reasonable correlation, using
 baseline data to estimate the overall traffic. A gate counter should
 recognize subsequent sightings of the same entity. In a gate counting
-scenario, repeated sightings of the same device can be very common,
-not only because people can be passing by multiple times, but also
+scenario, repeated sightings of the same device can be very common
 because of persistent devices. Instead of scanning through a line,
 Bluetooth discovery is actually performed in an area and thus any
 device in that area, possibly in nearby buildings, would be repeatedly
-discovered. Results from empirical studies with known static and
-transient devices suggest that a transient device typically appears
-for up to 90 seconds while it crosses a gate \cite{Oneill:2006vq}. A
-proper gate counting process would thus need to account for this and
-filter persistent devices.
+discovered. Furthermore, results from empirical studies with known
+static and transient devices suggest that a transient device typically
+appears for up to 90 seconds while it crosses a gate
+\cite{Oneill:2006vq}. A proper gate counting process needs to account for
+these facts and filter both the persistent and repeated transient
+devices. A good way to do this is to count the number of unique devices.
 
 A gate counter should also be able to answer questions like ``how many
 different people were seen in a given gate in the last 24 hours?'' or
