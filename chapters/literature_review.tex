@@ -6,7 +6,7 @@ the context of this dissertation. Section
 \ref{sec:privacy_pervasive_computing} begins by explaining the concept
 of location privacy in pervasive computing and it's importance. It then follows
 with the presentation of some of the approaches already used in the
-field of pervasive computing regarding this topic. Lastly, Section
+field of pervasive computing that deal with this topic. Lastly, Section
 \ref{sec:algorithms_and_data_structures} provides some background to
 the algorithms and classic data structures used in our approach to ensure
 privacy.
@@ -25,16 +25,16 @@ correctly understand what location privacy is.
 
 Beresford and Stajano ~\cite{1186725} define location privacy as:
 \begin{quotation}
-  ``...the ability to prevent other parties to from learning one's
+  ``...the ability to prevent other parties from learning one's
   current or past location.''
 \end{quotation}
 Their definition implies that a person whose location is being
-monitored must be able to control who has access that information.
-It also acknowledges that both past and present information regarding location
-are important. While current location information might enable an
-attacker to find out where a person is, past data can allow him/her to
-discover who the person is and where does she live/work among other
-things.
+monitored must be able to control who has access to that information.
+It also acknowledges that both past and present information, regarding
+location, is important. While current location information might
+enable an attacker to find out where a person is, past data can allow
+him/her to discover who the person is and where does she live/work,
+and even predict future locations.
 
 According Duckham and Kulik~\cite{duckham2006location} location
 privacy is:
@@ -96,7 +96,7 @@ from FourSquare\footnote{www.foursquare.com} and
 Twitter\footnote{www.twitter.com} it demonstrates how easy it is to
 infer that someone is not at home. Despite the existence of reports
 linking the sharing of location information with the occurrence of
-robberies\cite{Grove:2009:Online,Dybwad:2009:Online}, there are
+robberies~\cite{Grove:2009:Online,Dybwad:2009:Online}, there are
 several research works which show that most people put little value on
 their location privacy~\cite{ahern2007over,colbert2001diary,
   Cvrcek:2006:SVL:1179601.1179621,kaasinen2003user}. However, this
@@ -166,7 +166,7 @@ capable of adjusting location information resolution in spacial and/or
 temporal dimensions in order to comply with a specific
 \emph{k-anonymity} requirement. When a client requests a service,
 their algorithm calculates a \emph{cloaking box/region} that contains
-that client along with at least $K-1$ other users. That box is then
+that client along with at least $k-1$ other users. That box is then
 used as the client's location to request the service. If that box's
 resolution is to coarse for some services, temporal cloaking can be
 applied by delaying the user's service request. When more users come
@@ -224,7 +224,7 @@ cloaking regions. A cloaking region with $k$ users satisfies
 reciprocity only if that same cloaking region is generated for each of
 users. This means that an attacker cannot use \emph{minimality} attacks
 \cite{wong2007minimality}, i.e., it cannot infer which user is the
-source of the request with a probability bigger than $k^{-1}$.
+source of the request with a probability bigger than $\frac{1}{k}$.
 
 \subsubsection{Obfuscation}
 \label{sec:Obfuscation}
@@ -232,9 +232,9 @@ source of the request with a probability bigger than $k^{-1}$.
 Obfuscation based techniques usually degrade the ``quality'' of the
 information in order to provide privacy protection. Even tough this may
 seem comparable to what \emph{k-anonymity} based techniques do, there is a
-key difference. Obfuscation based techniques allow the actual identity
+key difference: obfuscation based techniques allow the actual identity
 of the user to be revealed (thus making it suitable for applications
-that require authentication or offer some sort of  personalization
+that require authentication or offer some sort of personalization
 \cite{langheinrich2001privacy}).
 
 Duckam and Kulik
@@ -268,7 +268,7 @@ greater is that individual's privacy. The set $O$ is used by their
 algorithms to negotiate the balance between an individual's location
 privacy and that individual's need for quality services. The more
 information an individual is willing to reveal the higher the quality
-of information he can provided with.
+of information he can be provided with.
 
 Another example of an obfuscation based approach was shown by
 Ardagna et al. in ~\cite{ardagna2007middleware} and later improved in

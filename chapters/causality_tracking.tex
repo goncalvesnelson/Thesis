@@ -81,23 +81,25 @@ among others. We just need the device's MAC address.
 Whenever a device is sensed, the sighting node records that event
 locally. This information is then used in the computation of device
 transitions between the system's multiple nodes. The place where that
-computation occurs depends on the system's architecture. In a
-centralized system, the computation has to be done in the server since
-only it has enough information to do so. Each node only shares its
-local information with the server. On the other hand, with a
-decentralized architecture, nodes can do the processing locally. The
-local information each node possesses is shared with the other nodes,
-thus allowing all the nodes to have access to the same data. Both
-models have advantages and disadvantages. For instance, the
-centralized approach is not fault tolerant, if the server crashes the
-tracking system stops working. This does not happen in the
-decentralized approach given that the same information is stored in
-multiple nodes (redundancy). The system can keep on working even if
-some of the nodes fail. Compared to the centralized version, the
-decentralized model also has greater availability as a result of the
-information redundancy. However, as a consequence of the exchange of
-information between all the nodes, the decentralized scenario has a
-bigger burden on the network when compared to the centralized one.
+computation occurs depends on the system's architecture. Our mechanism
+can be deployed in either centralized or decentralized
+architectures. In a centralized system configuration, the computation
+has to be done in the server since only it has enough information to
+do so. Each node only shares its local information with the server. On
+the other hand, with a decentralized architecture, nodes can do the
+processing locally. The local information each node possesses is
+shared with the other nodes, thus allowing all the nodes to have
+access to the data. Both models have advantages and
+disadvantages. For instance, the centralized approach is not fault
+tolerant, if the server crashes the tracking system stops
+working. This does not happen in the decentralized approach given that
+the same information is stored in multiple nodes (redundancy). The
+system can keep on working even if some of the nodes fail. Compared to
+the centralized version, the decentralized model also has greater
+availability as a result of the information redundancy. However, as a
+consequence of the exchange of information between all the nodes, the
+decentralized scenario has a bigger burden on the network when
+compared to the centralized one.
 
 
 In order to achieve the goal we set ourselves, and taking into account
@@ -130,7 +132,7 @@ In this chapter, we discuss the use of Bluetooth sightings, captured
 by a group of cooperative scanners, with the purpose of obtaining
 information about the movement patterns of users. All without
 compromising their privacy. Particularly, we wish to explore the
-application of stochastic summarizing techniques as privacy preserving
+application of stochastic summarizing techniques as a privacy preserving
 approach to Bluetooth Tracking.
 
 The technique presented in this chapter, Precedence Filters (PFs), gives
@@ -140,7 +142,7 @@ concerns the nodes that were visited just prior to the current
 scanner. Its accuracy can be adjusted to an uncertainty level
 compatible with plausible deniability. This means that it must be
 reasonable to believe an individual who denies being in a given place
-even if the technique points otherwise.
+even if the stochastic technique points otherwise.
  % Even so, the information about the aggregate of
 % all visitors must have enough accuracy to be relevant in the study of
 % the group's movement patterns.
@@ -157,7 +159,7 @@ processes and device sightings as state transition events. Precedence
 Filters are based upon this idea and provide accurate mobility
 information, at a macroscopic level, without neglecting individual
 privacy.  Precedence Filters can be seen as a vector clock
-\cite{Fidge,Mattern} implementation whose difference is the use of
+\cite{Fidge,Mattern} implementation, whose difference is the use of
 Counting Bloom Filters~\cite{Fan98summarycache:,Mitzenmacher:2002:CBF:581876.581878} (one for each node in the system) by the PFs
 instead of integers (one per process) used by vector clocks.
 
@@ -183,7 +185,7 @@ although it is not hard to draw conclusions that apply to the
 centralized scenario as well.
 With that in mind, Precedence Filters work as follows: supposing we
 have a set of Bluetooth scanners (nodes) $S$, each node $n \in S$ has
-a Precedence Filter $PF_n$. That PF is in turn composed of a set of
+a Precedence Filter $PF_n$. That PF is in turn composed of a map of
 \emph{Counting Bloom Filters}, one for each node $z \in S$. We use
 notation $PF_n^z$ to refer to the CBF for scanner $z$ belonging to
 $PF_n$, as depicted in Figure ~\ref{fig:precedence_filters}.
@@ -203,20 +205,20 @@ $PF_n$ is updated according to the following set of rules:
 \item Using the set of hash functions $K$, the node $n$ calculates the
   set of indices $I_d$. $I_d$ consists on the output from the $K$ hash
   functions regarding device $d$, $I_d=\bigcup_{f \in K} f(d)$.
-\item Node $n$ sends the set of indices $I_d$ to the all other nodes
+\item Node $n$ sends the set of indices $I_d$ to all other nodes
   in $S$.
-\item Each one of the $q$ nodes belonging to $Z$ ($Z = S \backslash
-  \{n\}$) replies with a set of tuples $R_q$. $R_q$ contains
+\item Each one of the $z$ nodes belonging to $Z$ ($Z = S \backslash
+  \{n\}$) replies with a set of tuples $R_z^{I_d}$. $R_z$ contains
   the previously required $I_d$ along with the set of values that each
   of the CBFs belonging to $FP_z$ had stored in those indices,
-  $R_q^{I_d}= (i,\{PF_z^x[i]\}) ,\forall i \in I_d, \forall x \in Z$
-\item Upon the reception of the replied from the other nodes, $n$
+    $R_z^{I_d}= \{(i,PF_z^z[i]) \mid \forall i \in I_d \}$.
+\item Upon the reception of the replies from the other nodes, $n$
   updates its own indices $I_d$ on the CBFs relative to the other
-  nodes with the maximum value received, $PF_n^z[i] = \max(R_q[i][z] \forall
-  q \in Z), \forall i \in I_d, \forall z \in Z$
+  nodes with the maximum value received, $PF_n^z[i] = \max(R_z^{I_d}[i]), \forall
+  z \in Z, \forall i \in I_d$, where $R_z^{I_d}[i] = v \rightarrow (i,v) \in R_z^{I_d}$.
 \item Lastly, $n$ updates the indices $I_d$ on its own CBF
-  ($PF_n^n$). For each index $i \in I_d, PF_n^n[i] = \max(PF_n^d[i])+1,
-  \forall d \in S$. By adding 1 to the maximum value stored in the
+  ($PF_n^n$). For each index $i \in I_d, PF_n^n[i] = \max(PF_n^s[i])+1,
+  \forall s \in S$. By adding 1 to the maximum value stored in the
   other nodes, the current node ``dominates'' them in the operation
   that returns the causality between the visited places. In other
   words, this is the key to obtaining the order in which the places were
@@ -247,18 +249,18 @@ from Subsection \ref{sec:vector_clocks}.
 Mobility traces, used in our model to describe the behavior of
 individuals, characterize a total order between the places
 visited. This means that it is always possible to establish an order
-between any two elements from the mobility trace. However, being based upon the
+between any two places in the mobility trace. However, being based upon the
 happens-before relation~\cite{Lamport:1978}, Precedence Filters can
 only represent partial orders. In this particular case, for each of
 the nodes/locations, they can only ``remember'' the last time each
-device was sighted. For instance, given the mobility trace
+device was sighted in a given place. For instance, given the mobility trace
 $MT_{P}=\{S_1,S_2,S_1,S_3,S_2,S_4,S_1\}$ where scanners $S_1$ and $S_2$
 are visited more than once, in the best case scenario PFs can obtain
 $CT_{P}=\{S_3,S_2,S_4,S_1\}$, which we will refer as a \emph{causality
  trace}. This is a consequence of the irreflexivity and antisymmetry
 properties from the happens-before relation. However, we can look at
 this as a feature of Precedence Filters, a sort of automatic data
-degradation. It ensures that the record of sightings for any given
+degradation. It ensures that the length of the record of sightings for any given
 device has an upper bound equal to the number of Bluetooth scanners in
 the tracking system.
 
@@ -270,8 +272,8 @@ results in the appearance of \emph{fictitious transitions}, i.e., the
 causal trace obtained from querying the filters, contains transitions
 which are non-existent in the original trace.
 
-Both these properties are what allow individual users to deny the
-legitimacy of the data extracted from the Precedence Filters.
+Both these properties are what allow individual users to plausibly deny the
+fidelity of the data extracted from the Precedence Filters.
 
 \section{Metrics and Data Sets}
 \label{sec:metrics-data-sets}
@@ -281,7 +283,7 @@ transitions obtained from querying the Precedence Filters with the set
 of transitions obtained from the causality traces, which were
 themselves obtained from mobility traces.  For instance, given the
 mobility trace $MT_P=\{S_1,S_2,S_2,S_1,S_3\}$, we calculate its
-causality trace according to the happens-before relation (only
+causality trace according to the happens-before relation (that only
 contains last sighting in each place), $CT_P=\{S_2,S_1,S_3\}$. Then we
 extract the set of transitions, denoted as $\mathcal{T}$, from that causality trace,
 $\mathcal{T}(CT_p)=\{(S_2,S_1),(S_2,S_3),(S_1,S_3)\}$. Each transition is a two location
@@ -302,13 +304,45 @@ individual $X$ visited location $S_1$ before visiting location
 $S_2$''. For each user $u$, this is done by calculating the cardinality of the mutually
 exclusive set between the transitions belonging to the causality trace
 ($\mathcal{T}(CT_u)$) and the transitions extracted from the Precedence Filter
-($\mathcal{T}(PF_u)$), according to Equation \ref{eq:individual_metric}.
+($\mathcal{T}(PF_u)$), according to Equation \ref{eq:complex_individual_metric}.
  \begin{equation}
-   \label{eq:individual_metric}
+   \label{eq:complex_individual_metric}
    \frac{\# ( (\mathcal{T}(CT_u) \bigcup \mathcal{T}(PF_u) )
        \setminus (\mathcal{T}(CT_u) \bigcap \mathcal{T}(PF_u) ) )}
      {\#(\mathcal{T}(PF_u))}
  \end{equation}
+ Figure \ref{fig:venn_diagram_complex}, which is the Venn diagram
+ representation of Equation \ref{eq:complex_individual_metric}, shows
+ that the individual metric calculates the relative amount of
+ incorrect information (information that is on the CTs and not on the
+ PFs and \textit{vice-versa}) returned by the Precedence
+ Filters. However, given the assumption that the exchange of
+ information between nodes is faster than people, our system never
+ forgets information, i.e., $\mathcal{T}(CT) \subseteq
+ \mathcal{T}(PF)$. Therefore, Equation
+ \ref{eq:complex_individual_metric} can be simplified, resulting in
+ Equation \ref{eq:simple_individual_metric} as depicted in Figure
+ \ref{fig:venn_diagram_simple}.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.50\textwidth]{images/venn_diagrams_complex.pdf}
+  \caption{Venn diagram representation of Equation \ref{eq:complex_individual_metric}}
+  \label{fig:venn_diagram_complex}
+\end{figure}
+
+ \begin{equation}
+   \label{eq:simple_individual_metric}
+   \frac{\# ( \mathcal{T}(PF_u) \setminus \mathcal{T}(CT_u) )}
+     {\#(\mathcal{T}(PF_u))}
+ \end{equation}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.35\textwidth]{images/venn_diagrams_simple.pdf}
+  \caption{Venn diagram representation of Equation \ref{eq:simple_individual_metric}}
+  \label{fig:venn_diagram_simple}
+\end{figure}
 
  The \emph{global} metric quantifies the inaccuracy of information
  regarding the relative weight of specific transitions. This enables
@@ -324,8 +358,8 @@ $\mathcal{A}$, the global metric for each transition $t \in
 \mathcal{A}$ is calculated according to equation
 \ref{eq:global_metric}. For each transition, we calculate the
 absolute difference between its relative weight in the Precedence Filter and
-its actual weight in the Causality Traces. Then we divide that number
-by its relative weight on the Precedence Filters. This gives us the
+its relative weight in the actual Causality Traces. Then we divide that number
+by its weight on the Precedence Filters. This gives us the
 relative error of the relative weight of the transition.
 
 \begin{equation}
@@ -383,11 +417,10 @@ In a first approach, we tried fitting the statistic distribution of
 the real data set using a negative exponential distribution. This
 would have allowed us to choose an arbitrary number of sensors, users
 and trace length. However, after evaluation with Pearson's Chi-Square
-test, it turned out to be a bad fitting. \todo{Dizer que deve ser uma
-  distribuição entre exponencial e powerlaw ou então uma distribuição
-  hibrida??}
-
-On a second approach, it was decided to use the same number of sensors
+test, it turned out to be a bad fitting. This might be solvable by
+switching to a more complex distribution function. Instead we chose to
+work with the empiric distribution.
+On this second approach, it was decided to use the same number of sensors
 as the real data set, i.e. 18. This allowed us to simulate the
 popularity of each sensor/place using the number of sightings from the
 real data set as weights. The larger the number of sightings at a
@@ -408,7 +441,7 @@ Figure \ref{fig:dev_sig_synthetic} shows the synthetic distribution
 obtained using the approach mentioned above.  As expected the results
 are very similar but not a perfect match. There is a
 correlation between the number of total and unique sightings which
-stems from the use of the ``average'' person. Also, the curve from the
+stems from the use of the ``average'' person model. Also, the curve from the
 synthetic data set is smoother, it does not suffer from the
 ``noise'' inherent to raw real data.
 
@@ -551,25 +584,19 @@ the previous results.
 
 In a scenario with 100 000 users whose maximum and average mobility
 trace sizes are respectively 100 and 30, depicted in Figure
-b\ref{fig:_2805_50_13}, our technique has a global inaccuracy a
-little higher than $10\%$ while providing an individual inaccuracy of
-$50\%$.  This means that, on average, half of the information about
-individual transitions is wrong, which we consider to be a value
-compatible with plausible deniability.
-\todo{Será que vale apena mencionar que o comportamento dos graficos
-  com 50 000 utilizadores apesar de ser algo melhor (embora pouco)para
-  probabilidades entre os 0.3 e os 0.8 não interessa, pois o erro
-  individual é baixo nesses valores}
-
-Recapitulating, our technique registers information user transitions
-. Each user has a set of transitions, and the individual
-metric measures, in average, the percentage of those which are
-fictitious/false.  The global metric, on the other hand, returns the
-average error regarding the information about the popularity of
-specific transitions/paths. Increasing the false positive
-probability of CBFs increases the total number of occurrences of
-transitions, which is why the individual accuracy drops; yet the relative
-weight of each transition (ratio) remains more stable, thus
+b\ref{fig:_2805_50_13}, our technique has a global inaccuracy a little
+higher than $10\%$ while providing an individual inaccuracy of $50\%$.
+This means that, on average, half of the information about individual
+transitions is wrong, which we consider to be a value compatible with
+plausible deniability.  Recapitulating, our technique registers
+information user transitions. Each user has a set of transitions, and
+the individual metric measures, in average, the percentage of those
+which are fictitious/false.  The global metric, on the other hand,
+returns the average error regarding the information about the
+popularity of specific transitions/paths. Increasing the false
+positive probability of CBFs increases the total number of occurrences
+of transitions, which is why the individual accuracy drops; yet the
+relative weight of each transition (ratio) remains more stable, thus
 the behavior of the global inaccuracy lines.
 
 \section{Summary}
